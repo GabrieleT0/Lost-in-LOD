@@ -1,0 +1,5 @@
+quality_data/*
+!.gitignore
+filtered/*
+.devcontainer
+venv
