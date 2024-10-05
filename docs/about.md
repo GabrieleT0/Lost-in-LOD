@@ -1,5 +1,15 @@
 ---
-title: About this website
+layout: page
+title: About
+tagline: A few more words about this theme
+permalink: /about.html
+ref: about
+order: 0
 ---
 
-I'm not sure yet what this website is about, but I'm sure I'll work it out soon.
+This is the _Cayman Blog_ Jekyll theme. You can find out more info about customizing this theme, as well as basic usage documentation, and source code at: [cayman-blog](https://github.com/lorepirri/cayman-blog)
+
+You can find the source code for _Jekyll_ at [jekyll](https://github.com/jekyll/jekyll)
+
+
+[Go to the Home Page]({{ '/' | absolute_url }})
