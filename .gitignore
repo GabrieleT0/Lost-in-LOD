@@ -3,3 +3,5 @@ quality_data/*
 filtered/*
 .devcontainer
 venv
+docs/Gemfile.lock
+.*
