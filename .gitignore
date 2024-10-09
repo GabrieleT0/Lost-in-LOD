@@ -5,6 +5,7 @@ filtered/*
 venv
 docs/Gemfile.lock
 .*
+!.gitkeep
 __pycache__
 evaluation_results/over_time/by_category/*
 evaluation_results/over_time/by_dimension/*
