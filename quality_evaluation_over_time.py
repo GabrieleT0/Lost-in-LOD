@@ -4,9 +4,10 @@ import requests
 import csv
 import ast
 from collections import Counter
+from datetime import datetime
 
 class QualityEvaluationOT:
-    def __init__(self,analysis_results_path,output_file='evaluation-over-time'):
+    def __init__(self,analysis_results_path,output_file='/evaluation_results/over_time'):
         '''
             Creates a list of CSV files that are to be parsed
 
@@ -58,22 +59,36 @@ class QualityEvaluationOT:
                 df['KG id'] = df['KG id'].astype(str).str.strip()
                 df_filtered = df[df['KG id'].isin(identifiers)]
 
+                #df.drop(df[df['Understandability score'] > 1.0].index, inplace=True)
+
                 df_filtered.to_csv(f"filtered/{filename}",index=False)
 
-    def stats_over_time(self, metrics,only_sparql_up=True):   
+    def stats_over_time(self, metrics, output_dir,only_sparql_up=True):   
         '''
             For every analysis, calculate the min, max, median, mean, q1, q3 for the specified metrics by considering all KGs in the file.
-            Then the data are stored in a csv file
+            Then the data are stored in a csv file.
 
             :param metrics: string array that contains the exact column name of the csv file for which you want to enter statistics
             :param sparql_availability: boolean if true, consider in statistics, only KGs with an active SPARQL endpoint, if false, all will be considered.
+            :param output_dir: path to the directory in which to place the csv files resulting from the evaluation.
         '''
         # loop through every file and calculate data for a boxplot
         for metric in metrics:
             data = []
             print(f"Evaluating the {metric} metric\n")
             data.append(['Analysis date', 'Min', 'Q1', 'Median', 'Q3', 'Max', 'Mean'])
-            for file_path in self.analysis_results_files:
+
+            # This is necessary for this metric since there was a change to the score calculation after May 5.
+            if metric == 'Understandability score':
+                start_date = datetime(2024, 5, 5)
+                filtered_files = [
+                    file for file in self.analysis_results_files
+                    if datetime.strptime(file.split('/')[2].split('.')[0], '%Y-%m-%d') > start_date
+                ]
+            else:
+                filtered_files = self.analysis_results_files
+
+            for file_path in filtered_files:
                 df = pd.read_csv(file_path)
 
                 #Exclude KG with SPARQL endpoint offline or not indicated
@@ -92,14 +107,16 @@ class QualityEvaluationOT:
                 data.append(evaluation)
 
             here = os.path.dirname(os.path.abspath(__file__))
-            save_path = os.path.join(here,f'{self.output_file}/{metric}.csv')
+            if '/' in metric:
+                metric = metric.replace('/','-')
+            save_path = os.path.join(here,f'{self.output_file}/{output_dir}/{metric}.csv')
             with open(save_path, mode='w', newline='') as file:
                 writer = csv.writer(file)
                 writer.writerows(data)
     
     def add_category_score(self):
         """
-            Add a the category score in the original CSV returned by KGHeartBeat, the value is calculated as the sum of the scores for that category, divided by the number of dimensions for that category.
+            Add a the category score in the original CSV returned by KGHeartBeat, the value is calculated as the sum of the dimensions score for that category, divided by the number of dimensions for that category.
         """
         categories = {
             "Intrinsic score" : {
@@ -124,7 +141,6 @@ class QualityEvaluationOT:
             "Representational score" : {
                 "Representational-Consistency score": 0,
                 "Representational-Conciseness score" : 0,
-                "Understandability score" : 0,
                 "Interpretability score" : 0,
                 "Versatility score" : 0
             },
@@ -150,7 +166,6 @@ class QualityEvaluationOT:
             Evaluate the provenance metrics by checking if an author or a publisher is indicated in the KG.
         '''
         data = []
-        data.append(['Provenance'])
         data.append(['Analysis date', 'Min', 'Q1', 'Median', 'Q3', 'Max', 'Mean'])
         for file_path in self.analysis_results_files:
             df = pd.read_csv(file_path)
@@ -168,7 +183,7 @@ class QualityEvaluationOT:
             data.append(evaluation)
 
         here = os.path.dirname(os.path.abspath(__file__))
-        save_path = os.path.join(here,f'{self.output_file}/P1.csv')
+        save_path = os.path.join(here,f'{self.output_file}/by_metric/P1-Provenance_information.csv')
         with open(save_path, mode='w', newline='') as file:
             writer = csv.writer(file)
             writer.writerows(data)
@@ -233,7 +248,7 @@ class QualityEvaluationOT:
             data.append(evaluation)
         
         here = os.path.dirname(os.path.abspath(__file__))
-        save_path = os.path.join(here,f'{self.output_file}/extensional_conciseness.csv')
+        save_path = os.path.join(here,f'{self.output_file}/by_metric/extensional_conciseness.csv')
         with open(save_path, mode='w', newline='') as file:
             writer = csv.writer(file)
             writer.writerows(data)
@@ -250,7 +265,17 @@ class QualityEvaluationOT:
         '''
         # Load CSV into one dataframe
         
-        df_list = [pd.read_csv(file, usecols=['KG id', 'Sparql endpoint','SPARQL endpoint URL']) for file in self.analysis_results_files]
+        # We restrict the observation period to this interval, as there were no new KGs analyzed that could alter the data 
+        # (if a KG is monitored only once (in the last analysis for example) and found UP, it would go into those ALWAYS UP and with a HIGH percentage of availability.
+        start_date = datetime(2024, 3, 17)
+        end_date = datetime(2024, 9, 1)
+
+        filtered_files = [
+            file for file in self.analysis_results_files
+            if start_date <= datetime.strptime(file.split('/')[2].split('.')[0], '%Y-%m-%d') <= end_date
+        ]
+        
+        df_list = [pd.read_csv(file, usecols=['KG id', 'Sparql endpoint','SPARQL endpoint URL']) for file in filtered_files]
         df = pd.concat(df_list, ignore_index=True)
 
         df[column_name] = df[column_name].str.strip()
@@ -270,7 +295,7 @@ class QualityEvaluationOT:
         status_counts = status_df['Status'].value_counts().reset_index()
         status_counts.columns = ['Status', 'Count']
 
-        status_counts.to_csv('./evaluation_results/over_time/availability_over_time.csv',index=False)
+        status_counts.to_csv('./evaluation_results/over_time/by_metric/sparql_over_time.csv',index=False)
 
         return status_df, status_counts, df
     
@@ -321,16 +346,4 @@ class QualityEvaluationOT:
 
         df = pd.DataFrame(grouped_counts.items(), columns=['Percentage of availability', 'Number of KGs'])
 
-        df.to_csv('./evaluation_results/over_time/percentage_of_availability.csv', index=False)
-
-
-q = QualityEvaluationOT('./filtered/','./evaluation_results/over_time/by_dimensions')
-#q.extract_only_lodc('./quality_data')
-q.stats_over_time([
-    'Availability score','Licensing score','Interlinking score','Performance score','Accuracy score','Consistency score','Conciseness score',
-                   'Verifiability score','Reputation score','Believability score','Currency score','Volatility score','Completeness score','Amount of data score','Representational-Consistency score','Representational-Conciseness score',
-                   'Understandability score','Interpretability score','Versatility score','Security score'
-])
-#status_df, status_counts, combined_df  = q.classify_sparql_endpoint_availability()
-#stats, availability_percentage_by_kgid = q.calculate_percentage_of_availability_swinging_sparql(combined_df,status_df)
-#q.group_by_availability_percentage(availability_percentage_by_kgid)
+        df.to_csv('./evaluation_results/over_time/by_metric/percentage_of_availability_sparql.csv', index=False)
