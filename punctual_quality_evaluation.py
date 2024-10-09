@@ -52,16 +52,16 @@ class PunctualQualityEvaluation:
             Evaluate accessibility metrics.
         '''
 
-        all_up = self.analysis_data[(self.analysis_data['SPARQL availability'] == True) & (self.analysis_data['RDF dump availability'] == True) & (self.analysis_data['VoID availability'] == 'VoID file available') & (self.analysis_data['Common accepted Media Type'] == True)].shape[0]
-        all_down = self.analysis_data[(self.analysis_data['SPARQL availability'] != True) & (self.analysis_data['RDF dump availability'] != True) & (self.analysis_data['VoID availability'] != 'VoID file available')].shape[0]
-        only_sparql = self.analysis_data[(self.analysis_data['SPARQL availability'] == True) & (self.analysis_data['RDF dump availability'] != True) & (self.analysis_data['VoID availability'] != 'VoID file available')].shape[0]
-        only_dump = self.analysis_data[(self.analysis_data['SPARQL availability'] != True) & (self.analysis_data['RDF dump availability'] == True) & (self.analysis_data['VoID availability'] != 'VoID file available') & (self.analysis_data['Common accepted Media Type'] == True)].shape[0]
-        only_void = self.analysis_data[(self.analysis_data['SPARQL availability'] != True) & (self.analysis_data['RDF dump availability'] != True) & (self.analysis_data['VoID availability'] == 'VoID file available')].shape[0]
-        sparql_dump = self.analysis_data[(self.analysis_data['SPARQL availability'] == True) & (self.analysis_data['RDF dump availability'] == True) & (self.analysis_data['VoID availability'] != 'VoID file available') & (self.analysis_data['Common accepted Media Type'] == True)].shape[0]
-        sparql_void = self.analysis_data[(self.analysis_data['SPARQL availability'] == True) & (self.analysis_data['RDF dump availability'] != True) & (self.analysis_data['VoID availability'] == 'VoID file available')].shape[0]
-        dump_void = self.analysis_data[(self.analysis_data['SPARQL availability'] != True) & (self.analysis_data['RDF dump availability'] == True) & (self.analysis_data['VoID availability'] == 'VoID file available') & (self.analysis_data['Common accepted Media Type'] == True)].shape[0]
-        sparql_dump_down = self.analysis_data[(self.analysis_data['SPARQL availability'] != True) & (self.analysis_data['RDF dump availability'] != True)].shape[0]
-        sparql_or_dump_UP = self.analysis_data[(self.analysis_data['SPARQL availability'] == True) | (self.analysis_data['RDF dump availability'] == True) & (self.analysis_data['Common accepted Media Type'] == True)].shape[0]
+        all_up = self.analysis_data[(self.analysis_data['Sparql endpoint'] == 'Available') & (self.analysis_data['Availability of RDF dump (metadata)'] == 1) & (self.analysis_data['Availability VoID file'] == 'VoID file available') & (self.analysis_data['Availability of a common accepted Media Type'] == 'True')].shape[0]
+        all_down = self.analysis_data[(self.analysis_data['Sparql endpoint'] != 'Available') & (self.analysis_data['Availability of RDF dump (metadata)'] != 1) & (self.analysis_data['Availability VoID file'] != 'VoID file available')].shape[0]
+        only_sparql = self.analysis_data[(self.analysis_data['Sparql endpoint'] == 'Available') & (self.analysis_data['Availability of RDF dump (metadata)'] != 1) & (self.analysis_data['Availability VoID file'] != 'VoID file available')].shape[0]
+        only_dump = self.analysis_data[(self.analysis_data['Sparql endpoint'] != 'Available') & (self.analysis_data['Availability of RDF dump (metadata)'] == 1) & (self.analysis_data['Availability VoID file'] != 'VoID file available') & (self.analysis_data['Availability of a common accepted Media Type'] == 'True')].shape[0]
+        only_void = self.analysis_data[(self.analysis_data['Sparql endpoint'] != 'Available') & (self.analysis_data['Availability of RDF dump (metadata)'] != 1) & (self.analysis_data['Availability VoID file'] == 'VoID file available')].shape[0]
+        sparql_dump = self.analysis_data[(self.analysis_data['Sparql endpoint'] == 'Available') & (self.analysis_data['Availability of RDF dump (metadata)'] == 1) & (self.analysis_data['Availability VoID file'] != 'VoID file available') & (self.analysis_data['Availability of a common accepted Media Type'] == 'True')].shape[0]
+        sparql_void = self.analysis_data[(self.analysis_data['Sparql endpoint'] == 'Available') & (self.analysis_data['Availability of RDF dump (metadata)'] != 1) & (self.analysis_data['Availability VoID file'] == 'VoID file available')].shape[0]
+        dump_void = self.analysis_data[(self.analysis_data['Sparql endpoint'] != 'Available') & (self.analysis_data['Availability of RDF dump (metadata)'] == 1) & (self.analysis_data['Availability VoID file'] == 'VoID file available') & (self.analysis_data['Availability of a common accepted Media Type'] == 'True')].shape[0]
+        sparql_dump_down = self.analysis_data[(self.analysis_data['Sparql endpoint'] != 'Available') & (self.analysis_data['Availability of RDF dump (metadata)'] != 1)].shape[0]
+        sparql_or_dump_UP = self.analysis_data[(self.analysis_data['Sparql endpoint'] == 'Available') | (self.analysis_data['Availability of RDF dump (metadata)'] == 1) & (self.analysis_data['Availability of a common accepted Media Type'] == True)].shape[0]
 
         result = {
             "SPARQL, Dump and VoID online" : all_up,
@@ -76,7 +76,7 @@ class PunctualQualityEvaluation:
             "SPARQL or Dump online" : sparql_or_dump_UP
         }
 
-        with open('./punctual/availability_stats.csv', mode='w', newline='') as file:
+        with open('./evaluation_results/punctual/availability_stats.csv', mode='w', newline='') as file:
             writer = csv.writer(file)
             
             # Write key as column
@@ -93,7 +93,7 @@ class PunctualQualityEvaluation:
             :param pandas_df: pandas df to write in the csv file.
         '''
         here = os.path.dirname(os.path.abspath(__file__))
-        save_path = os.path.join(here,f'./evaluation_results/{metric}_evaluation-punctual.csv')
+        save_path = os.path.join(here,f'./evaluation_results/punctual/{metric}_evaluation.csv')
         pandas_df.to_csv(save_path,index=index)
 
     def compare_column(self,column_to_compare,sparql_av=False):
@@ -118,17 +118,18 @@ class PunctualQualityEvaluation:
 
         df = self.analysis_data[
             (
-                (self.analysis_data['SPARQL availability'] == True) | 
-                (self.analysis_data['RDF dump availability'] == True) | 
-                (self.analysis_data['VoID availability'] == 'VoID file available')
+                (self.analysis_data['Sparql endpoint'] == 'Available') | 
+                ((self.analysis_data['Availability of RDF dump (metadata)'] == 1) & self.analysis_data['Availability of a common accepted Media Type'] == 'True')| 
+                (self.analysis_data['Availability VoID file'] == 'VoID file available')
             ) &
             (
-                (self.analysis_data['License (metadata)'] != '-') | 
+                ((self.analysis_data['License machine redeable (metadata)'] != '-') & (self.analysis_data['License machine redeable (metadata)'] != 'False'))| 
                 (self.analysis_data['License machine redeable (query)'] != '-')
             )
         ]
 
-        self.write_data_on_csv('availability_and_license',df)
+        self.write_data_on_csv('availability_and_license',df[['Sparql endpoint','Availability of RDF dump (metadata)','Availability VoID file',
+                                                             'Availability of a common accepted Media Type','License machine redeable (metadata)','License machine redeable (query)']],index=False)
     
     def check_machine_redeable_resolution(self,links):
         '''
@@ -209,9 +210,11 @@ class PunctualQualityEvaluation:
             if metric == 'Representational-Consistency score':
                 metric = 'Interoperability'
             if metric == 'Representational-Conciseness score':
-                metric = 'Rep.-Conc.'
+                metric = 'Rep.-Conc. score'
             if metric == 'Understandability score':
-                metric = 'Underst.'
+                metric = 'Underst. score'
+            if metric == 'Volatility score':
+                metric = 'Timeliness score'
             evaluation = [metric.split(' ')[0],min_value, q1_value, median_value, q3_value, max_value, mean_value]
             data.append(evaluation)
             
@@ -236,10 +239,3 @@ class PunctualQualityEvaluation:
         }
 
         return result
-
-c = PunctualQualityEvaluation('./filtered/2024-09-22.csv')
-c.generate_stats(['Availability score','Licensing score','Interlinking score','Performance score','Accuracy score','Consistency score','Conciseness score',
-                   'Verifiability score','Reputation score','Believability score','Currency score','Volatility score','Completeness score','Amount of data score','Representational-Consistency score','Representational-Conciseness score',
-                   'Understandability score','Interpretability score','Versatility score','Security score'],'metrics_stats_punctual',only_sparql_up=True)
-#c.generate_stats(['U1-value','CS2-value','IN3-value','RC1-value','RC2-value','N4-value','Deprecated classes/properties used'],'to_compare_with_luzzu')
-#c.accessibility_stats()
