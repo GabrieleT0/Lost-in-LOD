@@ -5,3 +5,8 @@ filtered/*
 venv
 docs/Gemfile.lock
 .*
+__pycache__
+evaluation_results/over_time/by_category/*
+evaluation_results/over_time/by_dimension/*
+evaluation_results/over_time/by_metric/*
+evaluation_results/punctual/*

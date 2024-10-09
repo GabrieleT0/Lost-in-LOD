@@ -45,6 +45,11 @@ class GenerateCharts:
             df_melted = df_filtered.melt(id_vars='Analysis date', value_vars=['Min', 'Q1', 'Median', 'Q3', 'Max'], 
                 var_name='Statistic', value_name='Value')
             
+            if metric_analyzed == 'Representational-Consistency score':
+                metric_analyzed = 'Interoperability score'
+            if metric_analyzed == 'Volatility score':
+                metric_analyzed = 'Timeliness score'
+            
             plt.figure(figsize=(10, 9))
             sns.boxplot(x='Analysis date', y='Value', hue='Analysis date', data=df_melted)
             plt.xticks(rotation=45)
@@ -52,6 +57,7 @@ class GenerateCharts:
             plt.xlabel('Date')
             plt.ylabel('Values')
             plt.savefig(self.output_file + '/' + metric_analyzed)
+            plt.close()
     
     def generate_boxplots_punctual(self,input_file):
         '''
@@ -71,9 +77,10 @@ class GenerateCharts:
         plt.title('Quality dimension evaluation')
         plt.xlabel('Dimension',ha='center')
         plt.ylabel('Values')
-        plt.savefig('./charts/punctual_by_dimension')
+        plt.savefig('./charts/punctual/quality_dimensions')
+        plt.close()
 
-    def generate_combined_boxplot_over_time(self, time_period_range, plot_title, dimensions_to_exclude = []):
+    def generate_combined_boxplot_over_time(self, time_period_range, plot_title,image_name,dimensions_to_exclude = []):
         """
             Creates a boxplot where on the x-axis is time and and for each measurement, a box for each metric.
 
@@ -130,23 +137,25 @@ class GenerateCharts:
         plt.xticks(rotation=45)
         plt.xlabel("Analysis Date")
         plt.ylabel("Value")
-        plt.title("Quality data for each metric")
+        plt.title(plot_title)
 
         plt.legend(bbox_to_anchor=(1.01, 1), loc='best', borderaxespad=0.)
         
-        plt.savefig(f'{self.output_file}/dimensions_over_time')
+        plt.savefig(f'{self.output_file}/{image_name}')
+        plt.close()
     
     def swinging_sparql_bubble_chart(self,filename):
+        """
+        Creates a bubble chart showing the distribution of the average availability percentage had by 
+        the SPARQL endpoint for KGs with SPARQL endpoints with fluctuating state 
+
+        :param filename: name of the file in which the data are present regarding the average percentage of availability had.
+        """
         df = pd.read_csv(filename)
 
         plt.figure(figsize=(8,6))
         minsize = min(df['Number of KGs'])*4
         maxsize = max(df['Number of KGs'])*4
         sns.scatterplot(x="Percentage of availability",y="Number of KGs",data=df, sizes=(minsize, maxsize), size='Number of KGs')
-        plt.savefig(f'{self.output_file}/availability_over_time')
-
-    
-charts = GenerateCharts('./evaluation_results/over_time/by_dimensions')
-#charts.generate_combined_boxplot_over_time('Q','Quality evaluation for each quality category')
-#charts.swinging_sparql_bubble_chart('./evaluation_results/over_time/percentage_of_availability.csv')   
-charts.generate_boxplots_over_time(range='A')
+        plt.savefig(f'{self.output_file}/availability_sparql_over_time')
+        plt.close()
