@@ -19,7 +19,7 @@ In this section we will illustrate how to perform LOD Cloud evaluation from the 
 ## Download quality data computed by KGHeartBeat 📂 
 This task can be done into two different ways:
 1. Download all the data from the [KGHeartBeat Web-App](http://www.isislab.it:12280/kgheartbeat/pages/Download), by selecting the date range of interest, data are put together in a single zip file that contains all quality analyses over the selected period. 
-2. Download the files with the analysis results from the following link:[http://isislab.it:12280/kghb_analysis_data/](http://isislab.it:12280/kghb_analysis_data/). Here you can download the quality data as separate zipper files for each available analysis date.
+2. Download the files with the analysis results from the following link: [http://isislab.it:12280/kghb_analysis_data/](http://isislab.it:12280/kghb_analysis_data/). Here you can download the quality data as separate zipper files for each available analysis date.
 
 To obtain the evaluation data discussed in the paper submitted to The Web Conference 2025 and those that are viewable on [the GitHub Pages of this project](https://gabrielet0.github.io/LOD-Cloud-Quality-Evaluation/), the quality analyses to be downloaded are all from **2024-01-07** to **2024-09-29**. After you download the quality data, put all the CSV files in the [quality_data](./quality_data/) folder.
 
