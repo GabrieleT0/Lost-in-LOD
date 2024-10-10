@@ -5,10 +5,10 @@
 This repository contains the code to perform the quality evaluation of the KGs registered in the LOD Cloud. The analysis data used for the evaluation are those calculated by KGHeartBeat, a community-shared open-source knowledge graph quality assessment tool to perform quality analysis on a wide range of freely available knowledge graphs registered on the LOD cloud. In order to execute the code of this project, you need to download the quality analysis data collected by [KGHeartBeat](https://github.com/isislab-unisa/KGHeartbeat). 
 
 # Table of contents
-- [How to reproduce the experiment](#how-to-reproduce-the-experiment-🔬)
-    - [Download quality data computed by KGHeartBeat](#download-quality-data-computed-by-kgheartbeat-📂)
-    - [Execute the project](#execute-the-project-💻)
-- [Repository structure](#repository-structure-🌳)
+- [How to reproduce the experiment](#how-to-reproduce-the-experiment-)
+    - [Download quality data computed by KGHeartBeat](#download-quality-data-computed-by-kgheartbeat-)
+    - [Execute the project](#execute-the-project-)
+- [Repository structure](#repository-structure-)
 
 
 
@@ -47,7 +47,7 @@ If you have already run the script, and have the data already filtered, you can 
 ```sh
 python main.py -j True
 ```
-Automatically the script will now populate the evaluation_results folder with the CSV files containing the evaluation data, while the [charts](./charts/) folder will contain the boxplots generated from the evaluation data obtained (look at the next section that shows the [structure of the repository](#repository-structure-🌳) to understand where the resulting files are placed)
+Automatically the script will now populate the evaluation_results folder with the CSV files containing the evaluation data, while the [charts](./charts/) folder will contain the boxplots generated from the evaluation data obtained (look at the next section that shows the [structure of the repository](#repository-structure-) to understand where the resulting files are placed)
 
 
 # Repository structure 🌳
