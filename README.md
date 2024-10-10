@@ -4,14 +4,24 @@
 
 This repository contains the code to perform the quality evaluation of the KGs registered in the LOD Cloud. The analysis data used for the evaluation are those calculated by KGHeartBeat, a community-shared open-source knowledge graph quality assessment tool to perform quality analysis on a wide range of freely available knowledge graphs registered on the LOD cloud. In order to execute the code of this project, you need to download the quality analysis data collected by [KGHeartBeat](https://github.com/isislab-unisa/KGHeartbeat). 
 
+# Table of contents
+- [How to reproduce the experiment](#how-to-reproduce-the-experiment-🔬)
+    - [Download quality data computed by KGHeartBeat](#download-quality-data-computed-by-kgheartbeat-📂)
+    - [Execute the project](#execute-the-project-💻)
+- [Repository structure](#repository-structure-🌳)
+
+
+
+
+
 # How to reproduce the experiment 🔬
 In this section we will illustrate how to perform LOD Cloud evaluation from the quality data computed by KGHeartBeat, so as to obtain the values discussed in the paper submitted to The Web Conference 2025 and illustrated in [Placeholder for GitHub pages]()
 ## Download quality data computed by KGHeartBeat 📂 
 This task can be done into two different ways:
-1. Download all the data from the KGHeartBeat Web-App, by selecting the date range of interest, data are put together in a single zip file that contains all quality analyses over the selected period. 
-2. Download the files with the analysis results from the following link, here you can download the quality data as separate zipper files for each available analysis date.
+1. Download all the data from the [KGHeartBeat Web-App](http://www.isislab.it:12280/kgheartbeat/pages/Download), by selecting the date range of interest, data are put together in a single zip file that contains all quality analyses over the selected period. 
+2. Download the files with the analysis results from the following link:[http://isislab.it:12280/kghb_analysis_data/](http://isislab.it:12280/kghb_analysis_data/). Here you can download the quality data as separate zipper files for each available analysis date.
 
-To obtain the evaluation data discussed in the paper submitted to The Web Conference 2025 and those that are viewable on the following page [](), to obtain the evaluation data discussed in the paper submitted to The Web Conference 2025 and those that are viewable on the following page, the quality analyses to be downloaded are all from **2024-01-07** to **2024-09-29**. After you download the quality data, put all the CSV files in the [quality_data](./quality_data/) folder.
+To obtain the evaluation data discussed in the paper submitted to The Web Conference 2025 and those that are viewable on [the GitHub Pages of this project](https://gabrielet0.github.io/LOD-Cloud-Quality-Evaluation/), the quality analyses to be downloaded are all from **2024-01-07** to **2024-09-29**. After you download the quality data, put all the CSV files in the [quality_data](./quality_data/) folder.
 
 ## Execute the project 💻
 #### Creates a virtual environment (recommended but not required) and installs all the dependencies
@@ -30,17 +40,17 @@ pip install -r requirements.txt
 ```
 #### Execute the main.py script
 ```sh
-python3 main.py
+python main.py
 ```
 As first, the script will take the CSVs files in the [quality_data](./quality_data/) directory and create new CSVs in the [filtered](./filtered/) directory that will contain only KGs that are indexed in the LOD Cloud. 
 If you have already run the script, and have the data already filtered, you can skip this step by running the ```main.py``` script with the ```-j True``` option, as shown below:
 ```sh
-python3 main.py -j True
+python main.py -j True
 ```
-Automatically the script will now populate the evaluation_results folder with the CSV files containing the evaluation data, while the [charts](./charts/) folder will contain the boxplots generated from the evaluation data obtained (look at the next section that shows the [structure of the repository](#repository-structure) to understand where the resulting files are placed)
+Automatically the script will now populate the evaluation_results folder with the CSV files containing the evaluation data, while the [charts](./charts/) folder will contain the boxplots generated from the evaluation data obtained (look at the next section that shows the [structure of the repository](#repository-structure-🌳) to understand where the resulting files are placed)
 
 
-## Repository structure 🌳
+# Repository structure 🌳
 ```
 Lost in LOD
     | - charts/                      Folder in which boxplots generated after quality assessment are placed
