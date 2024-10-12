@@ -274,7 +274,7 @@ class QualityEvaluationOT:
             file for file in self.analysis_results_files
             if start_date <= datetime.strptime(file.split('/')[2].split('.')[0], '%Y-%m-%d') <= end_date
         ]
-        
+
         df_list = [pd.read_csv(file, usecols=['KG id', 'Sparql endpoint','SPARQL endpoint URL']) for file in filtered_files]
         df = pd.concat(df_list, ignore_index=True)
 

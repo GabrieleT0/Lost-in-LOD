@@ -4,12 +4,14 @@ from generate_charts import GenerateCharts
 import argparse
 
 def main(jump_filtering):
-    #Load all csv with quality data into pandas df. Results are stored as CSV in the ./evaluation_results/over_time
-    analysis_over_time = QualityEvaluationOT('./filtered','./evaluation_results/over_time')
 
     #Extract only KGs in the LOD Cloud from the the quality analysis results.
     if jump_filtering == False:
+        analysis_over_time = QualityEvaluationOT('./filtered','./evaluation_results/over_time')
         analysis_over_time.extract_only_lodc('./quality_data')
+
+    #Load all csv with quality data into pandas df. Results are stored as CSV in the ./evaluation_results/over_time
+    analysis_over_time = QualityEvaluationOT('./filtered','./evaluation_results/over_time')
 
     #Load csv with the most recent quality analysis avilable. Results are stored as CSV in the ./evaluation_results/punctual
     punctual_analysis = PunctualQualityEvaluation('./filtered/2024-09-29.csv')
@@ -18,7 +20,7 @@ def main(jump_filtering):
     punctual_analysis.accessibility_stats()
 
     #Counts the number of KGs that are accessible and have an open license
-    #punctual_analysis.get_kgs_available_with_license()
+    punctual_analysis.get_kgs_available_with_license()
 
     '''
     Due to the best-effort nature of KGHeartBeat, if the license is not found on LOD Cloud, the DataHub license is entered, 
@@ -71,6 +73,11 @@ def main(jump_filtering):
     #(only KGs with the SPARQL endpoint online are considered)
     analysis_over_time.stats_over_time(['Accessibility score','Contextual score','Dataset dynamicity score','Intrinsic score',
                                         'Representational score','Trust score'],'by_category')
+    
+    #Evaluate the quality of each category in the punctual analysis, by calculating the q1, min, median, q3, max.
+    punctual_analysis = PunctualQualityEvaluation('./filtered/2024-09-29.csv')
+    punctual_analysis.generate_stats(['Accessibility score','Contextual score','Dataset dynamicity score','Intrinsic score',
+                                        'Representational score','Trust score'],'categories_stats',only_sparql_up=True)
 
     #Evaluate the quality of each dimension over time, by calculating the q1, min, median, q3, max
     #(only KGs with the SPARQL endpoint online are considered)
@@ -81,6 +88,7 @@ def main(jump_filtering):
     ],'by_dimension')
 
     #Chart generation
+    
     #Generates a Boxplot for every quality dimension to see the change in the quality dimension score over time
     chart_generator_over_time_dimensions = GenerateCharts('./evaluation_results/over_time/by_dimension','./charts/over_time/by_dimension')
     chart_generator_over_time_dimensions.generate_boxplots_over_time('M')
@@ -96,7 +104,11 @@ def main(jump_filtering):
 
     #Generates a boxplot with data statistics of all quality dimensions, with point data from the last analysis available
     chart_generator_punctual_dimensions = GenerateCharts('./evaluation_results/punctual','./charts/punctual')
-    chart_generator_punctual_dimensions.generate_boxplots_punctual('evaluation_results/punctual/dimensions_stats.csv')
+    chart_generator_punctual_dimensions.generate_boxplots_punctual('evaluation_results/punctual/dimensions_stats.csv','quality_dimensions')
+
+    #Generates a boxplot with data statistics of all quality categories, with point data from the last analysis available
+    chart_generator_punctual_dimensions = GenerateCharts('./evaluation_results/punctual','./charts/punctual')
+    chart_generator_punctual_dimensions.generate_boxplots_punctual('evaluation_results/punctual/categories_stats.csv','quality_categories','Category')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Script with parameter -j o --jump_filtering")
