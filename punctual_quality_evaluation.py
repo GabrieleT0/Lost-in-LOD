@@ -215,6 +215,8 @@ class PunctualQualityEvaluation:
                 metric = 'Underst. score'
             if metric == 'Volatility score':
                 metric = 'Timeliness score'
+            if metric == 'Dataset dynamicity score':
+                metric = 'Dataset-dynamicity score'
             evaluation = [metric.split(' ')[0],min_value, q1_value, median_value, q3_value, max_value, mean_value]
             data.append(evaluation)
             
