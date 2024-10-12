@@ -1,0 +1,39 @@
+﻿License,Uniformed licenses,URL,Conformant to the Open Knowledge Definition,Domain of application: Data/Content/Code,Deprecated/Superseded,Is Machine redeable?,Occurrences
+http://creativecommons.org/licenses/by/3.0/,CC-BY,YES,YES,Content,YES,NO,33
+-,Missing,NO,NO,NO,NO,NO,31
+http://www.opendatacommons.org/licenses/pddl/1.0/,ODC-PDDL,YES,YES,Data,NO,NO,5
+http://www.nationalarchives.gov.uk/doc/open-government-licence/,OGL-UK,YES,YES,"Content, Data",NO,NO,5
+http://creativecommons.org/licenses/by-nc-nd/3.0/,CC-BY-NC-ND,YES,NO,-,YES,NO,4
+https://w3id.org/italia/env/ld/catalog/license/ccby40,CC-BY,YES,YES,"Content, Data",NO,NO,3
+http://creativecommons.org/licenses/by-sa/3.0/,CC-BY-SA,YES,YES,Content,YES,NO,3
+http://creativecommons.org/licenses/by/4.0/,CC-BY,YES,YES,"Content, Data",NO,NO,3
+https://creativecommons.org/licenses/by-nc/4.0/,CC-BY-NC,YES,NO,-,NO,NO,3
+http://creativecommons.org/licenses/by-sa/4.0/,CC-BY-SA,YES,YES,"Content, Data",NO,NO,2
+http://creativecommons.org/publicdomain/zero/1.0/,CC-0,YES,YES,"Content, Data",NO,NO,2
+https://creativecommons.org/licenses/by-sa/4.0/,CC-BY-SA,YES,YES,"Content, Data",NO,NO,2
+Copyright 2014; Milos Jovanovik,Missing,NO,NO,NO,NO,NO,2
+http://prov.vic.gov.au/copyright,Not working,YES,UNCLEAR,UNCLEAR,UNCLEAR,NO,2
+https://creativecommons.org/licenses/by/3.0/,CC-BY,YES,YES,Content,YES,NO,2
+cc-by,CC-BY,NO,YES,"At least Content, it is up to the version, which is unknown",UNCLEAR,NO,2
+https://creativecommons.org/licenses/by/3.0/deed.it,CC-BY,YES,YES,Content,YES,NO,2
+https://creativecommons.org/licenses/by/4.0/,CC-BY,YES,YES,"Content, Data",NO,NO,2
+https://creativecommons.org/licenses/by-nc-sa/4.0/,CC-BY-NC-SA,YES,NO,-,NO,NO,1
+http://creativecommons.org/licenses/by-nc-sa/3.0/,CC-BY-NC-SA,YES,NO,-,YES,NO,1
+http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/,OGL-UK,YES,YES,"Content, Data",NO,NO,1
+https://creativecommons.org/licenses/by-nc-sa/2.0/deed.en,CC-BY-NC-SA,YES,NO,-,YES,NO,1
+https://www.ebi.ac.uk/about/terms-of-use,EMBL-EBI,YES,UNCLEAR,"Data, Code",NO,NO,1
+http://publications.europa.eu/resource/authority/licence/APACHE_2_0,Apache2.0,YES,YES,Code,NO,YES,1
+http://creativecommons.org/licenses/by-sa/3.0/igo/,CC-BY-SA,YES,YES,Content,YES,NO,1
+http://creativecommons.org/licenses/by-sa/3.0/at/,CC-BY-SA,YES,YES,Content,YES,NO,1
+Copyright 2009 - 2010 W3C.,Missing,NO,NO,NO,NO,NO,1
+http://w3id.org/italia/controlled-vocabulary/licences/A21_CCBY40,CC-BY,YES,YES,"Content, Data",NO,NO,1
+http://creativecommons.org/licenses/by/4.0,CC-BY,YES,YES,"Content, Data",NO,NO,1
+http://reference.data.gov.uk/id/open-government-licence,Not working,YES,UNCLEAR,UNCLEAR,UNCLEAR,NO,1
+CC-BY 4.0,CC-BY,NO,YES,"Content, Data",NO,NO,1
+http://creativecommons.org/licenses/by-nc-sa/3.0/fr/,CC-BY-NC-SA,YES,NO,-,YES,NO,1
+https://portal.gov.cz/portal/ostatni/volny-pristup-k-ds.html,Not working,YES,UNCLEAR,UNCLEAR,UNCLEAR,NO,1
+https://data.gov.cz/zdroj/datové-sady/00023221/1042474980/distribuce/b04d14a3f173750f5614e9e987010419/podmínky-užití,tilde CC-0,YES,YES,Data,UNCLEAR,YES,1
+https://creativecommons.org/publicdomain/zero/1.0/,CC-0,YES,YES,"Content, Data",NO,NO,1
+https://creativecommons.org/licenses/by/4.0/deed.it,CC-BY,YES,YES,"Content, Data",NO,NO,1
+http://creativecommons.org/licenses/by/2.1/jp/,CC-BY,YES,YES,Content,YES,NO,1
+http://ja.wikipedia.org/wiki/ファイル:Anthony_van_Dyck_-_Self-Portrait_-_WGA07407.jpg,-,-,-,-,-,,1

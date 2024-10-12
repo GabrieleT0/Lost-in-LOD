@@ -10,12 +10,9 @@ This repository contains the code to perform the quality evaluation of the KGs r
     - [Execute the project](#execute-the-project-)
 - [Repository structure](#repository-structure-)
 
-
-
-
-
 # How to reproduce the experiment 🔬
-In this section we will illustrate how to perform LOD Cloud evaluation from the quality data computed by KGHeartBeat, so as to obtain the values discussed in the paper submitted to The Web Conference 2025 and illustrated in [Placeholder for GitHub pages]()
+In this section we will illustrate how to perform LOD Cloud evaluation from the quality data computed by KGHeartBeat, so as to obtain the values discussed in the paper submitted to The Web Conference 2025 and illustrated in [here](https://anonymous.4open.science/w/Lost-in-LOD-45AF/).
+*You need a computer with at least **8GB of RAM** and **dual core CPU** to run the project.*
 ## Download quality data computed by KGHeartBeat 📂 
 This task can be done into two different ways:
 1. Download all the data from the [KGHeartBeat Web-App](http://www.isislab.it:12280/kgheartbeat/pages/Download), by selecting the date range of interest, data are put together in a single zip file that contains all quality analyses over the selected period. 
@@ -38,7 +35,7 @@ source <virtual-environment-name>/bin/activate
 #Install all the dependencies
 pip install -r requirements.txt
 ```
-#### Execute the main.py script
+#### Execute the main.py script from the root directory of the project
 ```sh
 python main.py
 ```

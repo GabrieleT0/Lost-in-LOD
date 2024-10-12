@@ -1,0 +1,48 @@
+﻿LICENSES,Uniformed license,URL,Conformant to the Open Knowledge Definition,Domain of application: Data/Content/Code,Deprecated/Superseded,Is Machine redeable?,# Occourcences
+http://creativecommons.org/licenses/by/3.0/,CC-BY 3.0,YES,YES,Content,YES,NO,35
+http://purl.oclc.org/NET/rdflicense/gpl-3.0,-,YES,UNCLEAR,UNCLEAR,UNCLEAR,NO,23
+http://www.opendefinition.org/licenses/cc-by-sa,CC-BY-SA,YES,YES,"Content, Data",UNCLEAR,NO,24
+http://publications.europa.eu/resource/authority/licence/APACHE_2_0,Apache,YES,YES,Code,NO,YES,14
+http://www.opendefinition.org/licenses/cc-by,CC-BY,YES,YES,"Content, Data",UNCLEAR,NO,16
+http://www.opendefinition.org/licenses/cc-zero,CC-0,YES,YES,"Content, Data",UNCLEAR,NO,8
+http://creativecommons.org/publicdomain/zero/1.0/,CC-0,YES,YES,"Content, Data",NO,NO,10
+https://creativecommons.org/licenses/by/4.0/,CC-BY,YES,YES,"Content, Data",NO,NO,7
+http://creativecommons.org/licenses/by-sa/3.0/,CC-BY-SA,YES,YES,Content,YES,NO,5
+http://www.nationalarchives.gov.uk/doc/open-government-licence/,OGL-UK,YES,YES,"Content, Data",NO,NO,5
+http://www.opendatacommons.org/licenses/pddl/1.0/,ODC-PDDL,YES,YES,Data,NO,NO,5
+http://creativecommons.org/licenses/by-nc-nd/3.0/,CC-BY-NC-ND,YES,NO,-,YES,NO,4
+http://creativecommons.org/licenses/by/4.0,CC-BY,YES,YES,"Content, Data",NO,NO,4
+https://creativecommons.org/licenses/by/3.0/,CC-BY 3.0,YES,YES,Content,YES,NO,4
+http://creativecommons.org/licenses/by-nc/2.0/,CC-BY-NC 2.0,YES,NO,-,NO,NO,3
+http://creativecommons.org/licenses/by/2.5/dk/,CC-BY 2.5,YES,YES,Content,YES,NO,3
+https://creativecommons.org/licenses/by-nc/4.0/,CC-BY-NC,YES,NO,-,NO,NO,3
+Creative Commons Non-Commercial (Any) - cc-nc -,CC-NC,NO,NO,Content,NO,NO,2
+http://creativecommons.org/licenses/by-sa/4.0/,CC-BY-SA,YES,YES,"Content, Data",NO,NO,2
+http://prov.vic.gov.au/copyright,Not working,YES,UNCLEAR,UNCLEAR,UNCLEAR,NO,2
+http://www.opendefinition.org/licenses/odc-by,ODC-BY,YES,YES,Data,UNCLEAR,NO,2
+https://creativecommons.org/licenses/by-nc-nd/4.0/,CC-BY-NC-ND,YES,NO,-,YES,NO,2
+https://creativecommons.org/licenses/by-sa/4.0/,CC-BY-SA,YES,YES,"Content, Data",NO,NO,2
+https://creativecommons.org/licenses/by/3.0/deed.it,CC-BY,YES,YES,Content,YES,NO,2
+https://w3id.org/italia/env/ld/catalog/license/ccby40,CC-BY,YES,YES,"Content, Data",NO,NO,2
+Other (Non-Commercial) - other-nc -,NC,NO,NO,-,-,NO,2
+http://creativecommons.org/licenses/by-nc-sa/3.0/,CC-BY-NC-SA,YES,NO,-,YES,NO,1
+http://creativecommons.org/licenses/by-nc-sa/3.0/fr/,CC-BY-NC-SA,YES,NO,-,YES,NO,1
+http://creativecommons.org/licenses/by-sa/3.0/at/,CC-BY-SA,YES,YES,Content,YES,NO,1
+http://creativecommons.org/licenses/by-sa/3.0/us/,CC-BY-SA,YES,YES,Content,YES,NO,1
+http://creativecommons.org/licenses/by/2.1/jp/,CC-BY,YES,YES,"Content, Data",YES,NO,1
+http://data.open.ac.uk/musow/88da92e059fb13512a7846a2b487efe0,OGL-UK,YES,YES,"Content, Data",NO,NO,1
+http://opendatacommons.org/licenses/odbl/1.0/,ODC-ODBL,YES,YES,Data,UNCLEAR,NO,1
+http://reference.data.gov.uk/id/open-government-licence,Not working,YES,UNCLEAR,UNCLEAR,UNCLEAR,NO,1
+http://w3id.org/italia/controlled-vocabulary/licences/A21_CCBY40,CC-BY,YES,YES,"Content, Data",NO,NO,1
+http://www.opendatacommons.org/licenses/odbl/,ODC-ODBL,YES,YES,Data,UNCLEAR,NO,1
+https://creativecommons.org/licenses/by-nc-nd/2.0/de/deed.en,CC-BY-NC-ND,YES,NO,-,YES,NO,1
+https://creativecommons.org/licenses/by-nc-sa/2.0/deed.en,CC-BY-NC-SA,YES,NO,-,YES,NO,1
+https://creativecommons.org/licenses/by-nc-sa/2.0/fr/,CC-BY-NC-SA,YES,NO,-,YES,NO,1
+https://creativecommons.org/licenses/by-nc-sa/4.0/,CC-BY-NC-SA,YES,NO,-,NO,NO,1
+https://creativecommons.org/licenses/by-sa/3.0/,CC-BY-SA,YES,YES,Content,YES,NO,1
+https://creativecommons.org/licenses/by/4.0/deed.it,CC-BY,YES,YES,"Content, Data",NO,NO,1
+https://creativecommons.org/publicdomain/zero/1.0/,CC-0,YES,YES,"Content, Data",NO,NO,1
+https://portal.gov.cz/portal/ostatni/volny-pristup-k-ds.html,Not working,YES,UNCLEAR,UNCLEAR,UNCLEAR,NO,1
+Open Data Commons Attribution License - odc-by -,ODC-BY,NO,YES,Data,UNCLEAR,NO,1
+Open Data Commons Open Database License (ODbL) - odc-odbl -,ODC-ODBL,NO,YES,Data,UNCLEAR,NO,1
+Other (Open) - other-open -,UNCLEAR,UNCLEAR,UNCLEAR,UNCLEAR,UNCLEAR,NO,1
