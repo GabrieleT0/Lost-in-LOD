@@ -1,6 +1,6 @@
 # Lost in LOD 
 
-### 🌐 [Website with assessment data calculated over the period from January 1, 2024 to September 29, 2024]()
+### 🌐 [Website with assessment data calculated over the period from January 1, 2024 to September 29, 2024](https://anonymous.4open.science/w/Lost-in-LOD-45AF/)
 
 This repository contains the code to perform the quality evaluation of the KGs registered in the LOD Cloud. The analysis data used for the evaluation are those calculated by KGHeartBeat, a community-shared open-source knowledge graph quality assessment tool to perform quality analysis on a wide range of freely available knowledge graphs registered on the LOD cloud. In order to execute the code of this project, you need to download the quality analysis data collected by [KGHeartBeat](https://github.com/isislab-unisa/KGHeartbeat). 
 
