@@ -1,6 +1,6 @@
 # Lost in LOD 
 
-### 🌐 [Website with assessment data calculated over the period from January 1, 2024 to September 29, 2024](https://anonymous.4open.science/w/Lost-in-LOD-45AF/)
+### 🌐 [Website with assessment data calculated over the period from January 1, 2024 to September 29, 2024](https://anonymous.4open.science/w/Lost-in-LOD-45AF/) (after clicking on the link, if a 404 screen appears, refresh the page, or use the “Website” button in the upper right corner (this is a bug of anonymous GitHub)
 
 This repository contains the code to perform the quality evaluation of the KGs registered in the LOD Cloud. The analysis data used for the evaluation are those calculated by KGHeartBeat, a community-shared open-source knowledge graph quality assessment tool to perform quality analysis on a wide range of freely available knowledge graphs registered on the LOD cloud. In order to execute the code of this project, you need to download the quality analysis data collected by [KGHeartBeat](https://github.com/isislab-unisa/KGHeartbeat). 
 
@@ -18,7 +18,7 @@ This task can be done into two different ways:
 1. Download all the data from the [KGHeartBeat Web-App](http://www.isislab.it:12280/kgheartbeat/pages/Download), by selecting the date range of interest, data are put together in a single zip file that contains all quality analyses over the selected period. 
 2. Download the files with the analysis results from the following link: [http://isislab.it:12280/kghb_analysis_data/](http://isislab.it:12280/kghb_analysis_data/). Here you can download the quality data as separate zipper files for each available analysis date.
 
-To obtain the evaluation data discussed in the paper submitted to The Web Conference 2025 and those that are viewable on [the GitHub Pages of this project](https://gabrielet0.github.io/LOD-Cloud-Quality-Evaluation/), the quality analyses to be downloaded are all from **2024-01-07** to **2024-09-29**. After you download the quality data, put all the CSV files in the [quality_data](./quality_data/) folder.
+To obtain the evaluation data discussed in the paper submitted to The Web Conference 2025 and those that are viewable on [the GitHub Pages of this project](https://anonymous.4open.science/w/Lost-in-LOD-45AF/), the quality analyses to be downloaded are all from **2024-01-07** to **2024-09-29**. After you download the quality data, put all the CSV files in the [quality_data](./quality_data/) folder.
 
 ## Execute the project 💻
 #### Creates a virtual environment (recommended but not required) and installs all the dependencies
