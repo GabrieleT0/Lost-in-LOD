@@ -40,11 +40,17 @@ pip install -r requirements.txt
 python main.py
 ```
 As first, the script will take the CSVs files in the [quality_data](./quality_data/) directory and create new CSVs in the [filtered](./filtered/) directory that will contain only KGs that are indexed in the LOD Cloud. 
-If you have already run the script, and have the data already filtered, you can skip this step by running the ```main.py``` script with the ```-j True``` option, as shown below:
+If you have already run the script, and have the data already filtered, you can skip this step by running the ```main.py``` script with the ```-j``` option, as shown below:
 ```sh
-python main.py -j True
+python main.py -j
 ```
-Automatically the script will now populate the evaluation_results folder with the CSV files containing the evaluation data, while the [charts](./charts/) folder will contain the boxplots generated from the evaluation data obtained (look at the next section that shows the [structure of the repository](#repository-structure-) to understand where the resulting files are placed)
+
+Automatically the script will now populate the [evaluation_results](./evaluation_results/) folder with the CSV files containing the evaluation data, while the [charts](./charts/) folder will contain the boxplots generated from the evaluation data obtained (look at the next section that shows the [structure of the repository](#repository-structure-) to understand where the resulting files are placed)
+
+If, on the other hand, you have already generated all the evaluation results data and only want to generate the charts (in case changes have been made to the ```generate_charts.py``` module), you can generate only the charts by running the ```main.py``` script with the ```-c``` option, as shown below:
+```sh
+python main.py -c
+```
 
 
 # Repository structure 🌳
