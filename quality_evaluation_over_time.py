@@ -43,7 +43,7 @@ class QualityEvaluationOT:
         '''
         response = requests.get("https://lod-cloud.net/versions/latest/lod-data.json")
         kgs = response.json()
-        print("Number of KG from LODCloud:", len(kgs))
+       
         identifiers = [data['identifier'] for key, data in kgs.items()]
         # Iterate throught all the csv and create a new csv with only the KGs from LODCloud
         for filename in os.listdir(analysis_results_path):
@@ -53,8 +53,8 @@ class QualityEvaluationOT:
 
                 identifiers_in_csv = set(df['KG id'].unique())
                 missing_identifiers = set(identifiers) - identifiers_in_csv
-                print("Missing KGs from KGHeartBeat analysis: ", len(missing_identifiers))
-                print(file_path)
+
+                print(f"File: {file_path} filtered")
 
                 df['KG id'] = df['KG id'].astype(str).str.strip()
                 df_filtered = df[df['KG id'].isin(identifiers)]
@@ -89,7 +89,7 @@ class QualityEvaluationOT:
                 filtered_files = self.analysis_results_files
 
             for file_path in filtered_files:
-                df = pd.read_csv(file_path)
+                df = pd.read_csv(file_path,usecols=[metric,'Sparql endpoint'])
 
                 #Exclude KG with SPARQL endpoint offline or not indicated
                 if(only_sparql_up == True):
