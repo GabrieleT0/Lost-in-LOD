@@ -3,12 +3,38 @@ from punctual_quality_evaluation import PunctualQualityEvaluation
 from generate_charts import GenerateCharts
 import argparse
 
-def main(jump_filtering):
 
+def generate_charts():
+    #Chart generation
+    
+    #Generates a Boxplot for every quality dimension to see the change in the quality dimension score over time
+    chart_generator_over_time_dimensions = GenerateCharts('./evaluation_results/over_time/by_dimension','./charts/over_time/by_dimension')
+    chart_generator_over_time_dimensions.generate_boxplots_over_time('M')
+
+    chart_generator_over_time_dimensions.swinging_sparql_bubble_chart('./evaluation_results/over_time/by_metric/percentage_of_availability_sparql.csv')
+
+    #Generates a Boxplot for every quality category to see the change in the quality category score over time
+    chart_generator_over_time_category = GenerateCharts('./evaluation_results/over_time/by_category','./charts/over_time/by_category')
+    chart_generator_over_time_category.generate_boxplots_over_time('M')
+
+    #Generates a boxplot with category quality score data with measurements over time, at 3-month intervals
+    chart_generator_over_time_category.generate_combined_boxplot_over_time('M','Quality by category','category_score_over_time_quarterly')
+
+    #Generates a boxplot with data statistics of all quality dimensions, with point data from the last analysis available
+    chart_generator_punctual_dimensions = GenerateCharts('./evaluation_results/punctual','./charts/punctual')
+    chart_generator_punctual_dimensions.generate_boxplots_punctual('evaluation_results/punctual/dimensions_stats.csv','quality_dimensions')
+
+    #Generates a boxplot with data statistics of all quality categories, with point data from the last analysis available
+    chart_generator_punctual_dimensions = GenerateCharts('./evaluation_results/punctual','./charts/punctual')
+    chart_generator_punctual_dimensions.generate_boxplots_punctual('evaluation_results/punctual/categories_stats.csv','quality_categories','Category')
+
+def filtering():
     #Extract only KGs in the LOD Cloud from the the quality analysis results.
-    if jump_filtering == False:
-        analysis_over_time = QualityEvaluationOT('./filtered','./evaluation_results/over_time')
-        analysis_over_time.extract_only_lodc('./quality_data')
+    analysis_over_time = QualityEvaluationOT('./filtered','./evaluation_results/over_time')
+    analysis_over_time.extract_only_lodc('./quality_data')
+
+def evaluation():
+    print('Running evaluation...')
 
     #Load all csv with quality data into pandas df. Results are stored as CSV in the ./evaluation_results/over_time
     analysis_over_time = QualityEvaluationOT('./filtered','./evaluation_results/over_time')
@@ -87,33 +113,21 @@ def main(jump_filtering):
         'Representational-Consistency score','Representational-Conciseness score','Understandability score','Interpretability score','Versatility score','Security score'
     ],'by_dimension')
 
-    #Chart generation
-    
-    #Generates a Boxplot for every quality dimension to see the change in the quality dimension score over time
-    chart_generator_over_time_dimensions = GenerateCharts('./evaluation_results/over_time/by_dimension','./charts/over_time/by_dimension')
-    chart_generator_over_time_dimensions.generate_boxplots_over_time('M')
-
-    chart_generator_over_time_dimensions.swinging_sparql_bubble_chart('./evaluation_results/over_time/by_metric/percentage_of_availability_sparql.csv')
-
-    #Generates a Boxplot for every quality category to see the change in the quality category score over time
-    chart_generator_over_time_category = GenerateCharts('./evaluation_results/over_time/by_category','./charts/over_time/by_category')
-    chart_generator_over_time_category.generate_boxplots_over_time('M')
-
-    #Generates a boxplot with category quality score data with measurements over time, at 3-month intervals
-    chart_generator_over_time_category.generate_combined_boxplot_over_time('M','Quality by category','category_score_over_time_quarterly')
-
-    #Generates a boxplot with data statistics of all quality dimensions, with point data from the last analysis available
-    chart_generator_punctual_dimensions = GenerateCharts('./evaluation_results/punctual','./charts/punctual')
-    chart_generator_punctual_dimensions.generate_boxplots_punctual('evaluation_results/punctual/dimensions_stats.csv','quality_dimensions')
-
-    #Generates a boxplot with data statistics of all quality categories, with point data from the last analysis available
-    chart_generator_punctual_dimensions = GenerateCharts('./evaluation_results/punctual','./charts/punctual')
-    chart_generator_punctual_dimensions.generate_boxplots_punctual('evaluation_results/punctual/categories_stats.csv','quality_categories','Category')
+    generate_charts()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Script with parameter -j o --jump_filtering")
-    parser.add_argument("-j","--jump_filtering", type=bool, default=False, help='If True, the quality data from the directory ./quality_data will not be filtered by extracting only KGs from LOD CLoud (set to True only if you already have quality data of only KGs from LODCloud in the filtered folder)')
+    group = parser.add_mutually_exclusive_group()
 
+    group.add_argument("-j", "--jump_filtering", action="store_true", help="If specified, the quality data from the directory ./quality_data will not be filtered by extracting only KGs from LOD CLoud")
+    group.add_argument("-c", "--charts_only", action="store_true", help="If specified, the script will only generate charts and skip other processing steps.")
+    
     args = parser.parse_args()
 
-    main(args.jump_filtering)
+    if(args.jump_filtering == True):
+        evaluation()
+    if(args.charts_only == True):
+        generate_charts()
+    if(args.jump_filtering == False and args.charts_only == False):
+        filtering()
+        evaluation()
