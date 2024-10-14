@@ -13,3 +13,4 @@ evaluation_results/punctual/*
 charts/over_time/*
 charts/punctual/*
 !.gitkeep
+!quality_data/extract_quality_data.sh

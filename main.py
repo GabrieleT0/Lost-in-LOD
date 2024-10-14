@@ -49,7 +49,7 @@ def evaluation():
     punctual_analysis.get_kgs_available_with_license()
 
     '''
-    Due to the best-effort nature of KGHeartBeat, if the license is not found on LOD Cloud, the DataHub license is entered, 
+    Due to the best-effort nature of LOD Cloud Quality Analyzer, if the license is not found on LOD Cloud, the DataHub license is entered, 
     so in this case we have considered only the metadata from LOD Cloud, so if used this two functions below directly, the data obtained will be different, since the data used in this case are the raw data calculated by the tool
     in the /evaluation_results/manually_refined_files/ directory, we entered the csv file from which we extracted the data for the paper given as output by the tool after editing.
 

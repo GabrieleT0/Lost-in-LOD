@@ -37,7 +37,7 @@ class QualityEvaluationOT:
     
     def extract_only_lodc(self,analysis_results_path):
         '''
-            Extract only KGs from LODCloud from the csv output from KGHeartBeat.
+            Extract only KGs from LODCloud from the csv output from KGs Quality Analyzer.
 
             :param analysis_results_path: path to csv where to discard the KGs.
         '''
@@ -116,7 +116,7 @@ class QualityEvaluationOT:
     
     def add_category_score(self):
         """
-            Add a the category score in the original CSV returned by KGHeartBeat, the value is calculated as the sum of the dimensions score for that category, divided by the number of dimensions for that category.
+            Add a the category score in the original CSV returned by KGs Quality Analyzer, the value is calculated as the sum of the dimensions score for that category, divided by the number of dimensions for that category.
         """
         categories = {
             "Intrinsic score" : {
