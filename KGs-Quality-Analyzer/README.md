@@ -69,7 +69,7 @@ The following figure shows the percentage of sizes and categories covered by KGs
 ![Quality category and quality dimensions covered by LOD Cloud Analyzer](./img/dimension_and_metrics_coverage.png)
 
 ## Test
-The test was performed by comparing KGs Quality Analyzer with [SPARQLES](https://sparqles.demo.openlinksw.com/). For more info about the test and the result go to the [test readme](./test/).
+The test was performed by comparing KGs Quality Analyzer with [SPARQLES](https://sparqles.demo.openlinksw.com/). For more info about the test and the result go to the [test readme](./test/README.md).
 
 ## Performance
 At the end of the analysis execution, in the [Analysis results](./Analysis%20results/) directory there will be a ```performance-yyyy-yy-yy.txt``` file, which will contain various information on the time taken for the analysis of each KG (with the time for the calculation of each metric) and the time of the analysis in total. The performance data that we illustrate below, and the file provided in the repository, refer to the analysis of all the KGs automatically discoverable carried out on 2023/12/24.
