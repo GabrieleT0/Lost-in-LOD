@@ -2,24 +2,37 @@
 
 ### 🌐 [Website with assessment data calculated over the period from January 1, 2024 to September 29, 2024](https://anonymous.4open.science/w/Lost-in-LOD-45AF/). After clicking on the link, if a 404 screen appears, refresh the page, or use the “Website” button in the upper right corner (this is an issue of anonymous GitHub, the same goes for the other links below in the README)
 
-This repository contains the code to perform the quality evaluation of the KGs registered in the LOD Cloud. The analysis data used for the evaluation are those calculated by KGHeartBeat, a community-shared open-source knowledge graph quality assessment tool to perform quality analysis on a wide range of freely available knowledge graphs registered on the LOD cloud. In order to execute the code of this project, you need to download the quality analysis data collected by [KGHeartBeat](https://github.com/isislab-unisa/KGHeartbeat). 
+This repository contains the code to perform the quality evaluation of the KGs registered in the LOD Cloud. The analysis data used for the evaluation are those calculated by [KGs Quality Analyzer](https://anonymous.4open.science/r/Lost-in-LOD-45AF/KGs-Quality-Analyzer/README.md), an open-source knowledge graph quality assessment tool to perform quality analysis on a wide range of freely available knowledge graphs registered on the LOD cloud.
 
 # Table of contents
 - [How to reproduce the experiment](#how-to-reproduce-the-experiment-)
-    - [Download quality data computed by KGHeartBeat](#download-quality-data-computed-by-kgheartbeat-)
+    - [Unzip the quality data computed by KGs Quality Analyzer](#unzip-the-quality-data-computed-by-kgs-quality-analyzer-)
     - [Execute the project](#execute-the-project-)
 - [Repository structure](#repository-structure-)
 
 # How to reproduce the experiment 🔬
-In this section we will illustrate how to perform LOD Cloud evaluation from the quality data computed by KGHeartBeat, so as to obtain the values discussed in the paper submitted to The Web Conference 2025 and illustrated in [here](https://anonymous.4open.science/w/Lost-in-LOD-45AF/).
+In this section we will illustrate how to perform LOD Cloud evaluation from the quality data computed by KGs Quality Analyzer, so as to obtain the values discussed in the paper submitted to The Web Conference 2025 and illustrated [here](https://anonymous.4open.science/w/Lost-in-LOD-45AF/). Download the quality data from [here](https://drive.google.com/file/d/1AmB9Q67CssUQDzoxaHg3mY1sy33jBzeM/view) (due to the size of the files could not be placed in the GitHub repository). Insert the downloaded zip file into the folder [quality_data](./quality_data/).
 *You need a computer with at least **8GB of RAM** and **dual core CPU** to run the project.*
-## Download quality data computed by KGHeartBeat 📂 
-This task can be done into two different ways:
-1. Download all the data from the [KGHeartBeat Web-App](http://www.isislab.it:12280/kgheartbeat/pages/Download), by selecting the date range of interest, data are put together in a single zip file that contains all quality analyses over the selected period. 
-2. Download the files with the analysis results from the following link: [http://isislab.it:12280/kghb_analysis_data/](http://isislab.it:12280/kghb_analysis_data/). Here you can download the quality data as separate zipper files for each available analysis date.
+## Unzip the quality data computed by KGs Quality Analyzer 📂 
+If you are in Linux environment, run the shell script in the quality data. Then, from the root of the project, run the following commands:
+```sh
+cd quality_data
+sh extract_quality_data.sh
+```
+In Windows environment, use any zip file extraction software and place the obtained CSV files in the quality data folder.
 
-To obtain the evaluation data discussed in the paper submitted to The Web Conference 2025 and those that are viewable on [the GitHub Pages of this project](https://anonymous.4open.science/w/Lost-in-LOD-45AF/), the quality analyses to be downloaded are all from **2024-01-07** to **2024-09-29**. After you download the quality data, put all the CSV files in the [quality_data](./quality_data/) folder.
-
+At the end of the process, the [quality_data](./quality_data/) folder should have the following structure:
+```
+| - quality_data/
+    | - 2024-01-07.csv
+    | - 2024-01-14.csv
+    ...
+    ...
+    ...
+    | - 2024-09-29.csv
+    | - extract_quality_data.sh
+    | - quality_data.zip
+```
 ## Execute the project 💻
 #### Creates a virtual environment (recommended but not required) and installs all the dependencies
 ```sh
@@ -45,7 +58,7 @@ If you have already run the script, and have the data already filtered, you can 
 python main.py -j
 ```
 
-Automatically the script will now populate the [evaluation_results](./evaluation_results/) folder with the CSV files containing the evaluation data, while the [charts](./charts/) folder will contain the boxplots generated from the evaluation data obtained (look at the next section that shows the [structure of the repository](#repository-structure-) to understand where the resulting files are placed)
+Automatically the script will now populate the [evaluation_results](./evaluation_results/) folder with the CSV files containing the evaluation data, while the [charts](./charts/) folder will contain the boxplots generated from the evaluation data obtained (look at the next section that shows the [structure of the repository](#repository-structure-) to understand where the resulting files are placed).
 
 If, on the other hand, you have already generated all the evaluation results data and only want to generate the charts (in case changes have been made to the ```generate_charts.py``` module), you can generate only the charts by running the ```main.py``` script with the ```-c``` option, as shown below:
 ```sh
@@ -70,7 +83,7 @@ Lost in LOD
             | - by_metric
         | - punctual/                Contains CSV files with all the results of evaluations performed on a single quality analysis.
     | - filtered/                    In this folder, the script inserts all CSV files containing the results of the qualitative analysis of only those KGs indexed in the LOD Cloud.
-    | - quality_data                 The quality analysis results provided as output by KGHeartBeat should be placed in this folder in order to run this script.
+    | - quality_data                 The quality analysis results provided as output by KGs Quality Analyzer should be placed in this folder in order to run this script.
     | - generate_charts.py           Python class that reads the CSV file containing the quality assessment and generates charts (Boxplot and Bubble chart for now)
     | - main.py                      Script to run the evaluation
     | - punctual_quality_evaluation  Python class that allows you to create CSV files with quality assessment on a single analysis file.
