@@ -26,7 +26,6 @@ KGs Quality Analyzer
         |- DataHubAPI.py        Module to retrieve KGs metadata from DataHub.
         |- LODCloudAPI.py       Module to retrieve KGs metadata from LODCloud.
         |- LOVAPI.py            Module used to retrieve standard vocabularies and terms from LOV.
-    | - examples/               Contains example on how to use KGs Quality Analyzer
     | - QualityDimensions       All classes representing the measured quality dimensions.
         |- AmountOfData.py
         |- Availability.py
