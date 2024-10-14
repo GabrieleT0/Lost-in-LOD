@@ -1,5 +1,5 @@
 # KGs Quality Analyzer
-This tool that can help you to analyze the quality of all Knowledge Graphs automatically recoverable from [Linked Open data Cloud (LODC)](https://lod-cloud.net) and [DataHub](https://old.datahub.io/) (the tool can easily be extended to include other KGs aggregators).
+This tool allows you to analyze the quality of all Knowledge Graphs automatically recoverable from [Linked Open data Cloud (LODC)](https://lod-cloud.net) and [DataHub](https://old.datahub.io/) (the tool can easily be extended to include other KGs aggregators).
 - [KGs Quality Analyzer](#kgs-quality-analyzer)
     - [Repository structure](#repository-structure)
     - [Quality metrics covered](#quality-metrics-covered)

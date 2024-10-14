@@ -28,7 +28,7 @@ Saving the output to a file is useful for checking the result obtained for each 
 |---|---|---|
 |377|322|55|
 
-Failures means that the result between SPARQLES and KG Heartbeat is different.
+Failures means that the result between SPARQLES and KGs Quality Analyzer is different.
 For the 55 KGs for which the result was different, we analyzed the result in depth and we obtained that:
 - For 37 KGs, we have that for KGs Quality Analyzer are **online** and for SPARQLES are **offline**. We then checked manually by visiting the SPARQL endpoint link and running the same query as KGs Quality Analyzer did. We found that for all 37 KGs for which our tool detected the SPARQL endpoint online, it was actually online and responding to queries. The reason why SPARQLES detects them offline could be due to the fact that they have an invalid SSL certificate (in fact in our manual check the problem was notified by the browser), this is a problem we have encountered with all the 30 KGs coming from the bio2rdf domain (link in the form: https://yyyy.bio2rdf.org/sparql). In our application, we solve this problem by using the [skipCheckSSL] function from [utils.py](../utils.py) in the [analyses.py](../analyses.py) module. 
 Instead, for the following endpoints that were offline for SPARQLES and online for KGs Quality Analyzer, the problem seems to be that any automatic redirects on HTTPS are ignored (N.B. by trying to change HTTP to HTTPS manually in the link, the result on SPARQLES is that no KG is found with that link), in fact for all this 6 KGs an automatic redirect is done :
@@ -78,13 +78,13 @@ As future work we will improve the tool to adjust the result on these 5 KGs and 
 
 ### VoID file availability (SPARQLES)
 
-For the test only KG that are measured by both applications are considered.
+For the test only KGs that are measured by both applications are considered.
 
 |Total KGs Tested|Passed|Failures|
 |---|---|---|
 |55|29|26|
 
-Failures means that the result between SPARQLES and KG Heartbeat is different.
+Failures means that the result between SPARQLES and KGs Quality Analyzer is different.
 For the 26 KGs for which the result was different, we analyzed the result in depth and we obtained that:
 
 - For 26 KGs, the result from KGs Quality Analyzer is that the VoID file is **online** and for SPARQLES **offline**. By manual check we found that the VoID file is **online** and our tool correctly recover it and parse it to extract the metadata about the KG.

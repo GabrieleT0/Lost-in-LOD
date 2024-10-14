@@ -14,7 +14,7 @@ This repository contains the code to perform the quality evaluation of the KGs r
 In this section we will illustrate how to perform LOD Cloud evaluation from the quality data computed by KGs Quality Analyzer, so as to obtain the values discussed in the paper submitted to The Web Conference 2025 and illustrated [here](https://anonymous.4open.science/w/Lost-in-LOD-45AF/). Download the quality data from [here](https://drive.google.com/file/d/1AmB9Q67CssUQDzoxaHg3mY1sy33jBzeM/view) (due to the size of the files could not be placed in the GitHub repository). Insert the downloaded zip file into the folder [quality_data](./quality_data/).
 *You need a computer with at least **8GB of RAM** and **dual core CPU** to run the project.*
 ## Unzip the quality data computed by KGs Quality Analyzer 📂 
-If you are in Linux environment, run the shell script in the quality data. Then, from the root of the project, run the following commands:
+If you are in Linux environment, you can use the shell script in the [quality data](./quality_data/):
 ```sh
 cd quality_data
 sh extract_quality_data.sh
