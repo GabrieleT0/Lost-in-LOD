@@ -50,10 +50,10 @@ class GenerateCharts:
             if metric_analyzed == 'Volatility score':
                 metric_analyzed = 'Timeliness score'
             
-            plt.figure(figsize=(20, 9))
+            plt.figure(figsize=(20, 15))
             plt.ylim(0, 1.009)
             sns.boxplot(x='Analysis date', y='Value', hue='Analysis date', data=df_melted,saturation=1)
-            plt.xticks(fontsize=18)
+            plt.xticks(fontsize=18,rotation=45)
             plt.yticks(fontsize=18)
             plt.title(metric_analyzed, weight='bold',fontsize=20)
             plt.xlabel('Date',weight='bold',fontsize=18)
@@ -72,7 +72,7 @@ class GenerateCharts:
         df_melted = df.melt(id_vars='Dimension', value_vars=['Min', 'Q1', 'Median', 'Q3', 'Max'], 
                             var_name='Statistic', value_name='Value')
 
-        plt.figure(figsize=(60, 40))
+        plt.figure(figsize=(60, 50))
 
         flierprops = {
             'marker': 'o',
@@ -144,11 +144,11 @@ class GenerateCharts:
             value_name='Value'
         )
 
-        plt.figure(figsize=(40, 16))
+        plt.figure(figsize=(40, 20))
         sns.boxplot(x='Analysis date', y='Value', hue='Dimension', data=melted_data,saturation=1,palette=palette)
 
         plt.ylim(0, 1.009)
-        plt.xticks(fontsize=30)
+        plt.xticks(fontsize=30,rotation=45)
         plt.yticks(fontsize=30)
         plt.xlabel("Analysis Date",weight='bold',fontsize=30)
         plt.ylabel("Value",weight='bold',fontsize=30)
