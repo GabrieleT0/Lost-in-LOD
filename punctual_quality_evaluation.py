@@ -45,7 +45,7 @@ class PunctualQualityEvaluation:
             except Exception:
                 continue
         df = pd.DataFrame(values.items())
-        self.write_data_on_csv('serial',df,False)
+        self.write_data_on_csv(f'serial_{metric}',df,False)
     
     def accessibility_stats(self):
         '''
