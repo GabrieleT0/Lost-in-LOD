@@ -1,6 +1,6 @@
 # Lost in LOD 
 
-### 🌐 [Website with assessment data calculated over the period from January 1, 2024 to September 29, 2024](https://anonymous.4open.science/w/Lost-in-LOD-45AF/). After clicking on the link, if a 404 screen appears, refresh the page, or use the “Website” button in the upper right corner (this is an issue of anonymous GitHub, the same goes for the other links below in the README)
+### 🌐 [Website with assessment data calculated over the period from January 1, 2024 to December 29, 2024](https://anonymous.4open.science/w/Lost-in-LOD-45AF/). After clicking on the link, if a 404 screen appears, refresh the page, or use the “Website” button in the upper right corner (this is an issue of anonymous GitHub, the same goes for the other links below in the README)
 
 This repository contains the code to perform the quality evaluation of the KGs registered in the LOD Cloud. The analysis data used for the evaluation are those calculated by [KGs Quality Analyzer](https://anonymous.4open.science/r/Lost-in-LOD-45AF/KGs-Quality-Analyzer/README.md), an open-source knowledge graph quality assessment tool to perform quality analysis on a wide range of freely available knowledge graphs registered on the LOD cloud.
 
@@ -11,7 +11,7 @@ This repository contains the code to perform the quality evaluation of the KGs r
 - [Repository structure](#repository-structure-)
 
 # How to reproduce the experiment 🔬
-In this section we will illustrate how to perform LOD Cloud evaluation from the quality data computed by KGs Quality Analyzer, so as to obtain the values discussed in the paper submitted to The Web Conference 2025 and illustrated at the following GitHub pages: [https://anonymous.4open.science/w/Lost-in-LOD-45AF/](https://anonymous.4open.science/w/Lost-in-LOD-45AF/). Download the quality data from the following link: [https://drive.google.com/file/d/1AmB9Q67CssUQDzoxaHg3mY1sy33jBzeM/view](https://drive.google.com/file/d/1AmB9Q67CssUQDzoxaHg3mY1sy33jBzeM/view) (due to the size of the files could not be placed in the GitHub repository). Insert the downloaded zip file into the folder [quality_data](./quality_data/).
+In this section we will illustrate how to perform LOD Cloud evaluation from the quality data computed by KGs Quality Analyzer, so as to obtain the values discussed in the article and illustrated at the following GitHub pages: [https://anonymous.4open.science/w/Lost-in-LOD-45AF/](https://anonymous.4open.science/w/Lost-in-LOD-45AF/). Download the quality data from the following link: [https://drive.google.com/file/d/1AmB9Q67CssUQDzoxaHg3mY1sy33jBzeM/view](https://drive.google.com/file/d/1AmB9Q67CssUQDzoxaHg3mY1sy33jBzeM/view) (due to the size of the files could not be placed in the GitHub repository). Insert the downloaded zip file into the folder [quality_data](./quality_data/).
 *You need a computer with at least **8GB of RAM** and **dual core CPU** to run the project.*
 ## Unzip the quality data computed by KGs Quality Analyzer 📂 
 If you are in Linux environment, you can use the shell script in the [quality data](./quality_data/):
@@ -29,7 +29,7 @@ At the end of the process, the [quality_data](./quality_data/) folder should hav
     ...
     ...
     ...
-    | - 2024-09-29.csv
+    | - 2024-12-29.csv
     | - extract_quality_data.sh
     | - quality_data.zip
 ```
