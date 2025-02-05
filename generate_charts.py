@@ -1,6 +1,8 @@
 import pandas as pd
 import os
 import seaborn as sns
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 class GenerateCharts:
@@ -28,12 +30,10 @@ class GenerateCharts:
 
             :param range: Time data selection interval, e.g., monthly(M), quarterly(Q), all (A).
         '''
-
         for file in self.analysis_results_files:
             metric_analyzed = os.path.splitext(os.path.basename(file))[0]
 
             df = pd.read_csv(file)
-
             df['Analysis date'] = pd.to_datetime(df['Analysis date'])
             df = df.sort_values(by='Analysis date')
 
@@ -50,10 +50,10 @@ class GenerateCharts:
             if metric_analyzed == 'Volatility score':
                 metric_analyzed = 'Timeliness score'
             
-            plt.figure(figsize=(20, 9))
+            plt.figure(figsize=(20, 23))
             plt.ylim(0, 1.009)
             sns.boxplot(x='Analysis date', y='Value', hue='Analysis date', data=df_melted,saturation=1)
-            plt.xticks(fontsize=18)
+            plt.xticks(fontsize=18,rotation=90)
             plt.yticks(fontsize=18)
             plt.title(metric_analyzed, weight='bold',fontsize=20)
             plt.xlabel('Date',weight='bold',fontsize=18)
