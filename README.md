@@ -1,8 +1,8 @@
 # Lost in LOD 
 
-### 🌐 [Website with assessment data calculated over the period from January 1, 2024 to December 29, 2024](https://anonymous.4open.science/w/Lost-in-LOD-45AF/). After clicking on the link, if a 404 screen appears, refresh the page, or use the “Website” button in the upper right corner (this is an issue of anonymous GitHub, the same goes for the other links below in the README)
+### 🌐 [Website with assessment data calculated over the period from January 1, 2024 to January 5, 2025](https://gabrielet0.github.io/Lost-in-LOD/).
 
-This repository contains the code to perform the quality evaluation of the KGs registered in the LOD Cloud. The analysis data used for the evaluation are those calculated by [KGs Quality Analyzer](https://anonymous.4open.science/r/Lost-in-LOD-45AF/KGs-Quality-Analyzer/README.md), an open-source knowledge graph quality assessment tool to perform quality analysis on a wide range of freely available knowledge graphs registered on the LOD cloud.
+This repository contains the code to perform the quality evaluation of the KGs registered in the LOD Cloud. The analysis data used for the evaluation are those calculated by [KGHeartBeat](https://github.com/isislab-unisa/KGHeartbeat), an open-source knowledge graph quality assessment tool to perform quality analysis on a wide range of freely available knowledge graphs registered on the LOD cloud.
 
 # Table of contents
 - [How to reproduce the experiment](#how-to-reproduce-the-experiment-)
