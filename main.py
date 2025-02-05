@@ -6,11 +6,9 @@ import argparse
 
 def generate_charts():
     #Chart generation
-    
     #Generates a Boxplot for every quality dimension to see the change in the quality dimension score over time
     chart_generator_over_time_dimensions = GenerateCharts('./evaluation_results/over_time/by_dimension','./charts/over_time/by_dimension')
     chart_generator_over_time_dimensions.generate_boxplots_over_time('M')
-
     chart_generator_over_time_dimensions.swinging_sparql_bubble_chart('./evaluation_results/over_time/by_metric/percentage_of_availability_sparql.csv')
 
     #Generates a Boxplot for every quality category to see the change in the quality category score over time
@@ -40,7 +38,7 @@ def evaluation():
     analysis_over_time = QualityEvaluationOT('./filtered','./evaluation_results/over_time')
 
     #Load csv with the most recent quality analysis avilable. Results are stored as CSV in the ./evaluation_results/punctual
-    punctual_analysis = PunctualQualityEvaluation('./filtered/2024-09-29.csv')
+    punctual_analysis = PunctualQualityEvaluation('./filtered/2025-01-26.csv')
 
     #Evaluate the Availability of the SPARQL endpoint / VoID file / RDF dump
     punctual_analysis.accessibility_stats()
@@ -62,13 +60,13 @@ def evaluation():
 
     #Calculates the occurrences of the different serialization formats indicated in the KG metadata
     punctual_analysis.count_elements_by_type('metadata-media-type')
-
+    
     #Calculates the min, max, mean, q1, q2 for all the quality dimensions monitored.
     punctual_analysis.generate_stats(['Availability score','Licensing score','Interlinking score','Performance score','Accuracy score','Consistency score','Conciseness score',
                     'Verifiability score','Reputation score','Believability score','Volatility score','Completeness score','Amount of data score','Representational-Consistency score','Representational-Conciseness score',
                     'Understandability score','Interpretability score','Versatility score','Security score'],'dimensions_stats',only_sparql_up=True)
 
-    punctual_analysis.generate_stats(['U1-value','CS2-value','IN3-value','RC1-value','RC2-value','N4-value'],'metrics_to_compare_with_luzzu')
+    punctual_analysis.generate_stats(['U1-value','CS2-value','IN3-value','RC1-value','RC2-value','IN4-value'],'metrics_to_compare_with_luzzu')
 
     #Extract only the KG with at least SPARQL endpoint, VoID file or RDF dump available and the indication about the license.
     punctual_analysis.get_kgs_available_with_license()
@@ -101,7 +99,7 @@ def evaluation():
                                         'Representational score','Trust score'],'by_category')
     
     #Evaluate the quality of each category in the punctual analysis, by calculating the q1, min, median, q3, max.
-    punctual_analysis = PunctualQualityEvaluation('./filtered/2024-09-29.csv')
+    punctual_analysis = PunctualQualityEvaluation('./filtered/2025-01-26.csv')
     punctual_analysis.generate_stats(['Accessibility score','Contextual score','Dataset dynamicity score','Intrinsic score',
                                         'Representational score','Trust score'],'categories_stats',only_sparql_up=True)
 
@@ -123,7 +121,6 @@ if __name__ == '__main__':
     group.add_argument("-c", "--charts_only", action="store_true", help="If specified, the script will only generate charts and skip other processing steps.")
     
     args = parser.parse_args()
-
     if(args.jump_filtering == True):
         evaluation()
     if(args.charts_only == True):
