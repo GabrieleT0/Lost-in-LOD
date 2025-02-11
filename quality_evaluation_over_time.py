@@ -6,6 +6,7 @@ import ast
 from collections import Counter
 from datetime import datetime
 import json
+import re
 
 class QualityEvaluationOT:
     def __init__(self,analysis_results_path,output_file='/evaluation_results/over_time'):
@@ -64,8 +65,9 @@ class QualityEvaluationOT:
                 df['KG id'] = df['KG id'].astype(str).str.strip()
                 df_filtered = df[df['KG id'].isin(identifiers)]
 
-                #df.drop(df[df['Understandability score'] > 1.0].index, inplace=True)
-
+                df.drop(df[df['Understandability score'] > 1.0].index, inplace=True)
+                #kg_to_mantain = ['nugmyanmar', 'ChimanMaru_Entrepreneur', 'AVsOnto', 'KING', 'orkg', 'ASCDC-Qing-Secret-Societies']
+                #df_filtered = df[df['KG id'].isin(kg_to_mantain)]
                 df_filtered.to_csv(f"filtered/{filename}",index=False)
 
     def stats_over_time(self, metrics, output_dir,only_sparql_up=True):   
@@ -94,22 +96,25 @@ class QualityEvaluationOT:
                 filtered_files = self.analysis_results_files
 
             for file_path in filtered_files:
-                df = pd.read_csv(file_path,usecols=[metric,'Sparql endpoint'])
+                try:
+                    df = pd.read_csv(file_path,usecols=[metric,'Sparql endpoint'])
 
-                #Exclude KG with SPARQL endpoint offline or not indicated
-                if(only_sparql_up == True):
-                    df = df[(df["Sparql endpoint"] == "Available")]
+                    #Exclude KG with SPARQL endpoint offline or not indicated
+                    if(only_sparql_up == True):
+                        df = df[(df["Sparql endpoint"] == "Available")]
 
-                df[metric] = pd.to_numeric(df[metric], errors='coerce')
-                min_value = df[metric].min()
-                q1_value = df[metric].quantile(0.25)
-                median_value = df[metric].median()
-                q3_value = df[metric].quantile(0.75)
-                max_value = df[metric].max()
-                mean_value = df[metric].mean()
+                    df[metric] = pd.to_numeric(df[metric], errors='coerce')
+                    min_value = df[metric].min()
+                    q1_value = df[metric].quantile(0.25)
+                    median_value = df[metric].median()
+                    q3_value = df[metric].quantile(0.75)
+                    max_value = df[metric].max()
+                    mean_value = df[metric].mean()
 
-                evaluation = [os.path.basename(file_path).split('.')[0],min_value, q1_value, median_value, q3_value, max_value, mean_value]
-                data.append(evaluation)
+                    evaluation = [os.path.basename(file_path).split('.')[0],min_value, q1_value, median_value, q3_value, max_value, mean_value]
+                    data.append(evaluation)
+                except:
+                    pass
 
             here = os.path.dirname(os.path.abspath(__file__))
             if '/' in metric:
@@ -166,7 +171,7 @@ class QualityEvaluationOT:
             
             df.to_csv(file_path,index=False)
     
-    def evaluate_provenance_info(self):
+    def evaluate_provenance_info(self,only_sparql_up=True):
         '''
             Evaluate the provenance metrics by checking if an author or a publisher is indicated in the KG.
         '''
@@ -174,6 +179,10 @@ class QualityEvaluationOT:
         data.append(['Analysis date', 'Min', 'Q1', 'Median', 'Q3', 'Max', 'Mean'])
         for file_path in self.analysis_results_files:
             df = pd.read_csv(file_path)
+
+            if(only_sparql_up == True):
+                df = df[(df["Sparql endpoint"] == "Available")]
+
             df['P1'] = df.apply(lambda row: 1 if (row['Author (metadata)'] != 'False' or (row['Publisher'] != '-' and row['Publisher'] != '[]' and row['Publisher'] != 'absent')) else 0, axis=1)
         
             df['P1'] = pd.to_numeric(df['P1'], errors='coerce')
@@ -193,6 +202,137 @@ class QualityEvaluationOT:
             writer = csv.writer(file)
             writer.writerows(data)
     
+    def split_verifiability_and_evaluate_score(self,only_sparql_up = True):
+        data_vocabs = []
+        data_authors = []
+        data_contributors = []
+        data_publishers = []
+        data_sign = []
+        data_sources = []
+        data_vocabs.append(['Analysis date', 'Min', 'Q1', 'Median', 'Q3', 'Max', 'Mean'])
+        data_authors.append(['Analysis date', 'Min', 'Q1', 'Median', 'Q3', 'Max', 'Mean'])
+        data_contributors.append(['Analysis date', 'Min', 'Q1', 'Median', 'Q3', 'Max', 'Mean'])
+        data_publishers.append(['Analysis date', 'Min', 'Q1', 'Median', 'Q3', 'Max', 'Mean'])
+        data_sign.append(['Analysis date', 'Min', 'Q1', 'Median', 'Q3', 'Max', 'Mean'])
+        data_sources.append(['Analysis date', 'Min', 'Q1', 'Median', 'Q3', 'Max', 'Mean'])
+
+        for file_path in self.analysis_results_files:
+            df = pd.read_csv(file_path)
+
+            if(only_sparql_up == True):
+                df = df[(df["Sparql endpoint"] == "Available")]
+
+            df['Vocabs-value'] = df.apply(lambda row: 1 if (row['Vocabularies'] != '-' and row['Vocabularies'] != '[]') else 0, axis=1)
+            df['Vocabs-value'] = pd.to_numeric(df['Vocabs-value'], errors='coerce')
+
+            df['Author-value'] = df.apply(lambda row: 1 if ((row['Author (query)'] != '-' and row['Author (query)'] != '[]') or (row['Author (metadata)']) != 'False' and row['Author (metadata)'] != False) else 0, axis=1)
+            df['Author-value'] = pd.to_numeric(df['Author-value'], errors='coerce')
+
+            df['Contributors-value'] = df.apply(lambda row: 1 if (row['Contributor'] != '-' and row['Contributor'] != '[]' and row['Contributor'] != 'absent') else 0, axis=1)
+            df['Contributors-value'] = pd.to_numeric(df['Contributors-value'], errors='coerce')
+
+            df['Publishers-value'] = df.apply(lambda row: 1 if (row['Publisher'] != '-' and row['Publisher'] != '[]' and row['Publisher'] != 'absent') else 0, axis=1)
+            df['Publishers-value'] = pd.to_numeric(df['Publishers-value'], errors='coerce')
+
+            df['Sign-value'] = df.apply(lambda row: 1 if (row['Signed'] == True) else 0, axis=1)
+            df['Sign-value'] = pd.to_numeric(df['Sign-value'], errors='coerce')
+            
+            df[['Web', 'Name', 'Email']] = df['Sources'].apply(self.extract_fields_from_sources)
+
+            df['Sources-value'] = df.apply(lambda row: 1 if ((row['Web'] != 'absent' or row['Name'] != 'absent' or row['Email'] != 'absent') and row['Web'] != '' or row['Name'] != '' or row['Email'] != '') else 0, axis=1)
+            df['Sources-value'] = pd.to_numeric(df['Sources-value'], errors='coerce')
+
+            min_value_vocabs = df['Vocabs-value'].min()
+            q1_value_vocabs = df['Vocabs-value'].quantile(0.25)
+            median_value_vocabs = df['Vocabs-value'].median()
+            q3_value_vocabs = df['Vocabs-value'].quantile(0.75)
+            max_value_vocabs = df['Vocabs-value'].max()
+            mean_value_vocabs = df['Vocabs-value'].mean()
+
+            evaluation_vocabs = [os.path.basename(file_path).split('.')[0],min_value_vocabs, q1_value_vocabs, median_value_vocabs, q3_value_vocabs, max_value_vocabs, mean_value_vocabs]
+            data_vocabs.append(evaluation_vocabs)
+
+            min_value_authors = df['Author-value'].min()
+            q1_value_authors = df['Author-value'].quantile(0.25)
+            median_value_authors = df['Author-value'].median()
+            q3_value_authors = df['Author-value'].quantile(0.75)
+            max_value_authors = df['Author-value'].max()
+            mean_value_authors = df['Author-value'].mean()
+
+            evaluation_authors = [os.path.basename(file_path).split('.')[0],min_value_authors, q1_value_authors, median_value_authors, q3_value_authors, max_value_authors, mean_value_authors]
+            data_authors.append(evaluation_authors)
+
+            min_value_contributors = df['Contributors-value'].min()
+            q1_value_contributors = df['Contributors-value'].quantile(0.25)
+            median_value_contributors = df['Contributors-value'].median()
+            q3_value_contributors = df['Contributors-value'].quantile(0.75)
+            max_value_contributors = df['Contributors-value'].max()
+            mean_value_contributors = df['Contributors-value'].mean()
+
+            evaluation_contributors = [os.path.basename(file_path).split('.')[0],min_value_contributors, q1_value_contributors, median_value_contributors, q3_value_contributors, max_value_contributors, mean_value_contributors]
+            data_contributors.append(evaluation_contributors)
+
+            min_value_publishers = df['Publishers-value'].min()
+            q1_value_publishers = df['Publishers-value'].quantile(0.25)
+            median_value_publishers = df['Publishers-value'].median()
+            q3_value_publishers = df['Publishers-value'].quantile(0.75)
+            max_value_publishers = df['Publishers-value'].max()
+            mean_value_publishers = df['Publishers-value'].mean()
+
+            evaluation_publishers = [os.path.basename(file_path).split('.')[0],min_value_publishers, q1_value_publishers, median_value_publishers, q3_value_publishers, max_value_publishers, mean_value_publishers]
+            data_publishers.append(evaluation_publishers)
+
+            min_value_sign = df['Sign-value'].min()
+            q1_value_sign = df['Sign-value'].quantile(0.25)
+            median_value_sign = df['Sign-value'].median()
+            q3_value_sign = df['Sign-value'].quantile(0.75)
+            max_value_sign = df['Sign-value'].max()
+            mean_value_sign = df['Sign-value'].mean()
+
+            evaluation_sign = [os.path.basename(file_path).split('.')[0],min_value_sign, q1_value_sign, median_value_sign, q3_value_sign, max_value_sign, mean_value_sign]
+            data_sign.append(evaluation_sign)
+
+            min_value_sources = df['Sources-value'].min()
+            q1_value_sources = df['Sources-value'].quantile(0.25)
+            median_value_sources = df['Sources-value'].median()
+            q3_value_sources = df['Sources-value'].quantile(0.75)
+            max_value_sources = df['Sources-value'].max()
+            mean_value_sources = df['Sources-value'].mean()
+
+            evaluation_sources = [os.path.basename(file_path).split('.')[0],min_value_sources, q1_value_sources, median_value_sources, q3_value_sources, max_value_sources, mean_value_sources]
+            data_sources.append(evaluation_sources)
+
+        here = os.path.dirname(os.path.abspath(__file__))
+        save_path = os.path.join(here,f'{self.output_file}/by_metric/Vocabs-value.csv')
+        with open(save_path, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(data_vocabs)
+
+        save_path = os.path.join(here,f'{self.output_file}/by_metric/Author-value.csv')
+        with open(save_path, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(data_authors)
+
+        save_path = os.path.join(here,f'{self.output_file}/by_metric/Contributors-value.csv')
+        with open(save_path, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(data_contributors)
+
+        save_path = os.path.join(here,f'{self.output_file}/by_metric/Publishers-value.csv')
+        with open(save_path, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(data_publishers)
+        
+        save_path = os.path.join(here,f'{self.output_file}/by_metric/Sign-value.csv')
+        with open(save_path, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(data_sign)
+
+        save_path = os.path.join(here,f'{self.output_file}/by_metric/Sources-value.csv')
+        with open(save_path, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(data_sources)
+
     def evaluate_integer_metrics(self,metric,new_column_name):
         '''
             Evaluates the quality of metrics that have list as their value.
@@ -352,3 +492,15 @@ class QualityEvaluationOT:
         df = pd.DataFrame(grouped_counts.items(), columns=['Percentage of availability', 'Number of KGs'])
 
         df.to_csv('./evaluation_results/over_time/by_metric/percentage_of_availability_sparql.csv', index=False)
+
+    def extract_fields_from_sources(self,text):
+        pattern = r'Web:\s*(\S+)?\s*Name:\s*([^,]+)?\s*Email:\s*([\w\.-]+@[\w\.-]+\.\w+)?'
+        match = re.search(pattern, text)
+
+        if match:
+            web = match.group(1) if match.group(1) else "absent"
+            name = match.group(2) if match.group(2) else "absent"
+            email = match.group(3) if match.group(3) else "absent"
+            return pd.Series([web, name.strip(), email])
+
+        return pd.Series(["absent", "absent", "absent"])
