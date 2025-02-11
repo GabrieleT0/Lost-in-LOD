@@ -31,35 +31,38 @@ class GenerateCharts:
             :param range: Time data selection interval, e.g., monthly(M), quarterly(Q), all (A).
         '''
         for file in self.analysis_results_files:
-            metric_analyzed = os.path.splitext(os.path.basename(file))[0]
+            try:
+                metric_analyzed = os.path.splitext(os.path.basename(file))[0]
 
-            df = pd.read_csv(file)
-            df['Analysis date'] = pd.to_datetime(df['Analysis date'])
-            df = df.sort_values(by='Analysis date')
+                df = pd.read_csv(file)
+                df['Analysis date'] = pd.to_datetime(df['Analysis date'])
+                df = df.sort_values(by='Analysis date')
 
-            if range != 'A':
-                df_filtered = df.groupby(df['Analysis date'].dt.to_period(range)).first()
-            else:
-                df_filtered = df
+                if range != 'A':
+                    df_filtered = df.groupby(df['Analysis date'].dt.to_period(range)).first()
+                else:
+                    df_filtered = df
 
-            df_melted = df_filtered.melt(id_vars='Analysis date', value_vars=['Min', 'Q1', 'Median', 'Q3', 'Max'], 
-                var_name='Statistic', value_name='Value')
-            
-            if metric_analyzed == 'Representational-Consistency score':
-                metric_analyzed = 'Interoperability score'
-            if metric_analyzed == 'Volatility score':
-                metric_analyzed = 'Timeliness score'
-            
-            plt.figure(figsize=(20, 15))
-            plt.ylim(0, 1.009)
-            sns.boxplot(x='Analysis date', y='Value', hue='Analysis date', data=df_melted,saturation=1)
-            plt.xticks(fontsize=18,rotation=45)
-            plt.yticks(fontsize=18)
-            plt.title(metric_analyzed, weight='bold',fontsize=20)
-            plt.xlabel('Date',weight='bold',fontsize=18)
-            plt.ylabel('Values',weight='bold',fontsize=18)
-            plt.savefig(self.output_file + '/' + metric_analyzed)
-            plt.close()
+                df_melted = df_filtered.melt(id_vars='Analysis date', value_vars=['Min', 'Q1', 'Median', 'Q3', 'Max'], 
+                    var_name='Statistic', value_name='Value')
+                
+                if metric_analyzed == 'Representational-Consistency score':
+                    metric_analyzed = 'Interoperability score'
+                if metric_analyzed == 'Volatility score':
+                    metric_analyzed = 'Timeliness score'
+                
+                plt.figure(figsize=(25, 15))
+                plt.ylim(0, 1.009)
+                sns.boxplot(x='Analysis date', y='Value', hue='Analysis date', data=df_melted,saturation=1)
+                plt.xticks(fontsize=18,rotation=45)
+                plt.yticks(fontsize=18)
+                plt.title(metric_analyzed, weight='bold',fontsize=20)
+                plt.xlabel('Date',weight='bold',fontsize=18)
+                plt.ylabel('Values',weight='bold',fontsize=18)
+                plt.savefig(self.output_file + '/' + metric_analyzed)
+                plt.close()
+            except:
+                continue
     
     def generate_boxplots_punctual(self,input_file,output_filename,xlabel='Dimension'):
         '''
