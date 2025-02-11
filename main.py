@@ -8,15 +8,17 @@ def generate_charts():
     #Chart generation
     #Generates a Boxplot for every quality dimension to see the change in the quality dimension score over time
     chart_generator_over_time_dimensions = GenerateCharts('./evaluation_results/over_time/by_dimension','./charts/over_time/by_dimension')
-    chart_generator_over_time_dimensions.generate_boxplots_over_time('M')
+    chart_generator_over_time_dimensions.generate_boxplots_over_time('A')
     chart_generator_over_time_dimensions.swinging_sparql_bubble_chart('./evaluation_results/over_time/by_metric/percentage_of_availability_sparql.csv')
 
+    chart_generator_over_time_dimensions = GenerateCharts('./evaluation_results/over_time/by_dimension','./charts/over_time/by_dimension')
+
     #Generates a Boxplot for every quality category to see the change in the quality category score over time
-    chart_generator_over_time_category = GenerateCharts('./evaluation_results/over_time/by_category','./charts/over_time/by_category')
-    chart_generator_over_time_category.generate_boxplots_over_time('M')
+    chart_generator_over_time_category = GenerateCharts('./evaluation_results/over_time/by_metric','./charts/over_time/by_metric')
+    chart_generator_over_time_category.generate_boxplots_over_time('A')
 
     #Generates a boxplot with category quality score data with measurements over time, at 3-month intervals
-    chart_generator_over_time_category.generate_combined_boxplot_over_time('M','Quality by category','category_score_over_time_quarterly')
+    chart_generator_over_time_category.generate_combined_boxplot_over_time('A','Quality by category','category_score_over_time_quarterly')
 
     #Generates a boxplot with data statistics of all quality dimensions, with point data from the last analysis available
     chart_generator_punctual_dimensions = GenerateCharts('./evaluation_results/punctual','./charts/punctual')
@@ -66,7 +68,7 @@ def evaluation():
                     'Verifiability score','Reputation score','Believability score','Volatility score','Completeness score','Amount of data score','Representational-Consistency score','Representational-Conciseness score',
                     'Understandability score','Interpretability score','Versatility score','Security score'],'dimensions_stats',only_sparql_up=True)
 
-    punctual_analysis.generate_stats(['U1-value','CS2-value','IN3-value','RC1-value','RC2-value','IN4-value'],'metrics_to_compare_with_luzzu')
+    punctual_analysis.generate_stats(['U1-value','CS2-value','IN3-value','RC1-value','RC2-value','IN4-value'],'metrics_to_compare_with_luzzu',only_sparql_up=True)
 
     #Extract only the KG with at least SPARQL endpoint, VoID file or RDF dump available and the indication about the license.
     punctual_analysis.get_kgs_available_with_license()
@@ -74,11 +76,12 @@ def evaluation():
     #Evaluate if there is indication about the KG provenance 
     #(metric used for comparizon with LUZZU, not used in the paper because it was not possible to estimate 
     # the value of this metric from the analyses done by Debattista in 2016 and 2019)
-    analysis_over_time.evaluate_provenance_info()
+    analysis_over_time.evaluate_provenance_info(only_sparql_up=True)
+    analysis_over_time.split_verifiability_and_evaluate_score(only_sparql_up=True)
 
     #Calculates the min, max, mean, q1, q2 for CS1-Entities as member of disjoint class and CS5-Invalid usage of inverse-functional properties, CN2-Extensional conciseness
     #(Used for comparison with LUZZU, along with: U1, CS2, IN3, RC1, RC2, IN4 and CS4 calculated before only on the most recent analysis available)
-    analysis_over_time.stats_over_time(['Entities as member of disjoint class','Invalid usage of inverse-functional properties','Deprecated classes/properties used'],'by_metric')
+    analysis_over_time.stats_over_time(['Entities as member of disjoint class','Invalid usage of inverse-functional properties','Deprecated classes/properties used'],'by_metric',only_sparql_up=True)
     analysis_over_time.evaluate_conciseness()
 
     #Analyze the SPARQL endpoint status over time
@@ -96,7 +99,7 @@ def evaluation():
     #Evaluate the quality of each category over time, by calculating the q1, min, median, q3, max.
     #(only KGs with the SPARQL endpoint online are considered)
     analysis_over_time.stats_over_time(['Accessibility score','Contextual score','Dataset dynamicity score','Intrinsic score',
-                                        'Representational score','Trust score'],'by_category')
+                                        'Representational score','Trust score'],'by_category', only_sparql_up=True)
     
     #Evaluate the quality of each category in the punctual analysis, by calculating the q1, min, median, q3, max.
     punctual_analysis = PunctualQualityEvaluation('./filtered/2025-01-26.csv')
@@ -108,8 +111,8 @@ def evaluation():
     analysis_over_time.stats_over_time([
         'Availability score','Licensing score','Interlinking score','Performance score','Accuracy score','Consistency score','Conciseness score',
         'Verifiability score','Reputation score','Believability score','Currency score','Volatility score','Completeness score','Amount of data score',
-        'Representational-Consistency score','Representational-Conciseness score','Understandability score','Interpretability score','Versatility score','Security score'
-    ],'by_dimension')
+        'Representational-Consistency score','Representational-Conciseness score','Understandability score','Interpretability score','Versatility score','Security score','IN4-value','RC2-value'
+    ],'by_dimension', only_sparql_up=True)
 
     generate_charts()
 
