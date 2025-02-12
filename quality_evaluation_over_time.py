@@ -68,6 +68,9 @@ class QualityEvaluationOT:
                 df.drop(df[df['Understandability score'] > 1.0].index, inplace=True)
                 #kg_to_mantain = ['nugmyanmar', 'ChimanMaru_Entrepreneur', 'AVsOnto', 'KING', 'orkg', 'ASCDC-Qing-Secret-Societies']
                 #df_filtered = df[df['KG id'].isin(kg_to_mantain)]
+                print(f"Total number of KG: {df_filtered.shape[0]}")
+                only_sparql_up_df = df[(df["Sparql endpoint"] == "Available")] 
+                print(f"Total number of KG with SPARQL endpoint Online: {only_sparql_up_df.shape[0]}")
                 df_filtered.to_csv(f"filtered/{filename}",index=False)
 
     def stats_over_time(self, metrics, output_dir,only_sparql_up=True):   
@@ -201,7 +204,77 @@ class QualityEvaluationOT:
         with open(save_path, mode='w', newline='') as file:
             writer = csv.writer(file)
             writer.writerows(data)
-    
+
+    def split_trust_value_score(self, only_sparql_up = True):
+        data_description = []
+        data_name = []
+        data_web = []
+        data_description.append(['Analysis date', 'Min', 'Q1', 'Median', 'Q3', 'Max', 'Mean'])
+        data_name.append(['Analysis date', 'Min', 'Q1', 'Median', 'Q3', 'Max', 'Mean'])
+        data_web.append(['Analysis date', 'Min', 'Q1', 'Median', 'Q3', 'Max', 'Mean'])
+
+        for file_path in self.analysis_results_files:
+            df = pd.read_csv(file_path)
+
+            if(only_sparql_up == True):
+                df = df[(df["Sparql endpoint"] == "Available")]
+            
+            df[['Web', 'Name', 'Email']] = df['Sources'].apply(self.extract_fields_from_sources)
+            df['Web-value'] = df.apply(lambda row: 1 if (row['Web'] != 'absent' and row['Web'] != '' and row['Web'] != 'Absent') else 0, axis=1)
+            df['Web-value'] = pd.to_numeric(df['Web-value'], errors='coerce')
+
+            df['Description-value'] = df.apply(lambda row: 1 if (row['Description'] != 'absent' and row['Description'] != '' and row['Description'] != 'False' and row['Description'] != False) else 0, axis=1)
+            df['Description-value'] = pd.to_numeric(df['Description-value'], errors='coerce')
+
+            df['Name-value'] = df.apply(lambda row: 1 if (row['KG name'] != 'absent' and row['KG name'] != '' and row['KG name'] != 'False' and row['KG name'] != False) else 0, axis=1)
+            df['Name-value'] = pd.to_numeric(df['Name-value'], errors='coerce')
+
+            min_value_description = df['Description-value'].min()
+            q1_value_description = df['Description-value'].quantile(0.25)
+            median_value_description = df['Description-value'].median()
+            q3_value_description = df['Description-value'].quantile(0.75)
+            max_value_description = df['Description-value'].max()
+            mean_value_description = df['Description-value'].mean()
+
+            evaluation_description = [os.path.basename(file_path).split('.')[0],min_value_description, q1_value_description, median_value_description, q3_value_description, max_value_description, mean_value_description]
+            data_description.append(evaluation_description)
+
+            min_value_name = df['Name-value'].min()
+            q1_value_name = df['Name-value'].quantile(0.25)
+            median_value_name = df['Name-value'].median()
+            q3_value_name = df['Name-value'].quantile(0.75)
+            max_value_name = df['Name-value'].max()
+            mean_value_name = df['Name-value'].mean()
+
+            evaluation_name = [os.path.basename(file_path).split('.')[0],min_value_name, q1_value_name, median_value_name, q3_value_name, max_value_name, mean_value_name]
+            data_name.append(evaluation_name)
+
+            min_value_web = df['Web-value'].min()
+            q1_value_web = df['Web-value'].quantile(0.25)
+            median_value_web = df['Web-value'].median()
+            q3_value_web = df['Web-value'].quantile(0.75)
+            max_value_web = df['Web-value'].max()
+            mean_value_web = df['Web-value'].mean()
+
+            evaluation_web = [os.path.basename(file_path).split('.')[0],min_value_web, q1_value_web, median_value_web, q3_value_web, max_value_web, mean_value_web]
+            data_web.append(evaluation_web)
+        
+        here = os.path.dirname(os.path.abspath(__file__))
+        save_path = os.path.join(here,f'{self.output_file}/by_metric/Description-value.csv')
+        with open(save_path, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(data_description)
+        
+        save_path = os.path.join(here,f'{self.output_file}/by_metric/Name-value.csv')
+        with open(save_path, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(data_name)
+
+        save_path = os.path.join(here,f'{self.output_file}/by_metric/Web-value.csv')
+        with open(save_path, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(data_web)
+        
     def split_verifiability_and_evaluate_score(self,only_sparql_up = True):
         data_vocabs = []
         data_authors = []
