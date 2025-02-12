@@ -78,6 +78,7 @@ def evaluation():
     # the value of this metric from the analyses done by Debattista in 2016 and 2019)
     analysis_over_time.evaluate_provenance_info(only_sparql_up=True)
     analysis_over_time.split_verifiability_and_evaluate_score(only_sparql_up=True)
+    analysis_over_time.split_trust_value_score(only_sparql_up=True)
 
     #Calculates the min, max, mean, q1, q2 for CS1-Entities as member of disjoint class and CS5-Invalid usage of inverse-functional properties, CN2-Extensional conciseness
     #(Used for comparison with LUZZU, along with: U1, CS2, IN3, RC1, RC2, IN4 and CS4 calculated before only on the most recent analysis available)

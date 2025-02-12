@@ -107,35 +107,38 @@ class GenerateCharts:
         """
         dfs = []
         for file in self.analysis_results_files:
-            df = pd.read_csv(file)
-            dimension_name = os.path.splitext(os.path.basename(file))[0]
-            dimension_name = dimension_name.split(' ')[0]
-            if dimension_name in dimensions_to_exclude:
+            try:
+                df = pd.read_csv(file)
+                dimension_name = os.path.splitext(os.path.basename(file))[0]
+                dimension_name = dimension_name.split(' ')[0]
+                if dimension_name in dimensions_to_exclude:
+                    continue
+                
+                if dimension_name == 'Representational-Consistency':
+                    dimension_name = 'Interoperability'
+                if dimension_name == 'Representational-Conciseness':
+                    dimension_name = 'Rep.-Conc.'
+                if dimension_name == 'Understandability':
+                    dimension_name = 'Underst.'
+                if dimension_name == 'Volatility':
+                    dimension_name = 'Timeliness'
+                if dimension_name == 'Amount':
+                    dimension_name == 'Amount of data'
+                if dimension_name == 'Dataset':
+                    dimension_name = 'Dataset dynamicity'
+
+                df["Dimension"] = dimension_name
+
+                df['Analysis date'] = pd.to_datetime(df['Analysis date'])
+                df = df.sort_values(by='Analysis date')
+                if time_period_range != 'A':
+                    df_filtered = df.groupby(df['Analysis date'].dt.to_period(time_period_range)).first()
+                else:
+                    df_filtered = df
+
+                dfs.append(df_filtered)
+            except:
                 continue
-            
-            if dimension_name == 'Representational-Consistency':
-                dimension_name = 'Interoperability'
-            if dimension_name == 'Representational-Conciseness':
-                dimension_name = 'Rep.-Conc.'
-            if dimension_name == 'Understandability':
-                dimension_name = 'Underst.'
-            if dimension_name == 'Volatility':
-                dimension_name = 'Timeliness'
-            if dimension_name == 'Amount':
-                dimension_name == 'Amount of data'
-            if dimension_name == 'Dataset':
-                dimension_name = 'Dataset dynamicity'
-
-            df["Dimension"] = dimension_name
-
-            df['Analysis date'] = pd.to_datetime(df['Analysis date'])
-            df = df.sort_values(by='Analysis date')
-            if time_period_range != 'A':
-                df_filtered = df.groupby(df['Analysis date'].dt.to_period(time_period_range)).first()
-            else:
-                df_filtered = df
-
-            dfs.append(df_filtered)
 
         data = pd.concat(dfs)
 
