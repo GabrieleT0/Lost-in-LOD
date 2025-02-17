@@ -12,6 +12,9 @@ evaluation_results/over_time/by_metric/*
 evaluation_results/punctual/*
 charts/over_time/by_category/*
 charts/over_time/by_dimension/*
+charts/over_time/by_dimension_all/*
+charts/over_time/by_category_all/*
+charts/over_time/by_metric/*
 charts/punctual/*
 !.gitkeep
 !quality_data/extract_quality_data.sh
