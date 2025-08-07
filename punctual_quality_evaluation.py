@@ -4,6 +4,8 @@ import csv
 import ast
 import requests
 from xml.etree import ElementTree
+import requests
+
 
 class PunctualQualityEvaluation:
     def __init__(self, analysis_file_path,separator = ','):
@@ -241,3 +243,35 @@ class PunctualQualityEvaluation:
         }
 
         return result
+    
+    def check_sparql_server_used_header(self):
+        '''
+            Check the SPARQL server used by the SPARQL endpoint.    
+        '''
+        sparql_endpoint_links = self.analysis_data[
+            self.analysis_data['Sparql endpoint'] == 'Available'
+        ]['SPARQL endpoint URL'].dropna()
+        results = []
+        for link in sparql_endpoint_links:
+            try: 
+                response = requests.get(link, verify=False)
+                if response.status_code == 200:
+                    headers = response.headers
+                    server = headers.get('Server', 'Unknown')
+                    x_generator = headers.get('X-Generator', 'Unknown')
+                    x_powered_by = headers.get('X-Powered-By', 'Unknown')
+                    print(f"SPARQL endpoint {link} is served by {server} with generator {x_generator} and powered by {x_powered_by}")
+                    results.append({
+                        'Sparql endpoint': link,
+                        'Server': server,
+                        'X-Generator': x_generator,
+                        'X-Powered-By': x_powered_by
+                    })
+            except requests.RequestException as e:
+                print(f"Error during request to {link}: {e}")
+        # Save results to a CSV file
+        results_df = pd.DataFrame(results)
+        here = os.path.dirname(os.path.abspath(__file__))
+        results_df.to_csv(os.path.join(here, "./evaluation_results/punctual/sparql_server_info_header.csv"), index=False)
+
+        return results_df
